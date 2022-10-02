@@ -10,7 +10,7 @@ const initialState: Array<TaskType> = [
     {id: v1(), title: 'React', isDone: false},]
 
 type ReducerType = ChangeTaskStatusType|AddNewTaskType|RemoveTaskType|UpdateTaskType
-export const Reducer = (state: Array<TaskType>= initialState, action: ReducerType): Array<TaskType> => {
+export const TaskReducer = (state: Array<TaskType>= initialState, action: ReducerType): Array<TaskType> => {
     switch (action.type) {
         case 'CHANGE-TASK-STATUS': {
             return state.map(f => f.id === action.id ? {...f, isDone: action.status} : f)

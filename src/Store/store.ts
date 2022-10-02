@@ -1,8 +1,8 @@
 import {combineReducers, createStore} from "redux";
-import {Reducer} from "../Reducer/reducer";
+import {TaskReducer} from "../Reducer/taskReducer";
 
 const rootReducer=combineReducers({
-    Reducer
+    Reducer: TaskReducer
 
 })
 export type AppRootType=ReturnType<typeof rootReducer>

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType} from "../../Store/store";
-import {AddNewTask, TaskType} from "../../Reducer/reducer";
+import {AddNewTask, TaskType} from "../../Reducer/taskReducer";
 import Task from "../Task";
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {ChangeTaskStatus, RemoveTask, TaskType} from "../../Reducer/reducer";
+import {ChangeTaskStatus, RemoveTask, TaskType} from "../../Reducer/taskReducer";
 import {useDispatch} from "react-redux";
 
 type TaskPropsType = TaskType
