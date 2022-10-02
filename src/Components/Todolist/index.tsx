@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType} from "../../Store/store";
-import {AddNewTask, TaskType} from "../../Reducer/taskReducer";
+import {AddNewTask, TaskType} from "../../Reducers/taskReducer";
 import Task from "../Task";
 
 
 const Todolist = () => {
-    const task = useSelector<AppRootType, Array<TaskType>>(state => state.Reducer)
+    const task = useSelector<AppRootType, Array<TaskType>>(state => state.tasks)
     const dispatch = useDispatch()
     const [value, setValue] = useState('')
 

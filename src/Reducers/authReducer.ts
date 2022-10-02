@@ -13,3 +13,11 @@ export const authReducer = (state: any = initialState, actions: any) => {
 
 }
 
+export const setLogin = (payload: any) => {
+    return {
+        type: 'AUTH/SET-IS-LOGGED-IN',
+        payload
+    } as const
+
+}
+
