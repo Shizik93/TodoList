@@ -1,6 +1,6 @@
-type statusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 type initialStateType = {
-    status: statusType,
+    status: RequestStatusType,
     error: string,
     isAuthorized: boolean
 }
@@ -32,7 +32,7 @@ export const appReducer = (state: initialStateType = initialState, actions: appR
 
     }
 }
-export const setStatus = (status: statusType) => {
+export const setStatus = (status: RequestStatusType) => {
     return {
         type: 'APP/SET-STATUS',
         status
