@@ -7,7 +7,11 @@ import Todolist from "./Todolist";
 const Todolists = () => {
     const todolists = useAppSelector(state => state.todolists)
     const dispatch = useAppDispatch()
-const [value,setValue]=useState('')
+    const [value, setValue] = useState('')
+    const createNewTodolistHandler = () => {
+        dispatch(createNewTodolistTC(value))
+        setValue('')
+    }
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
@@ -18,19 +22,16 @@ const [value,setValue]=useState('')
                 <input value={value} onChange={(e) => {
                     setValue(e.currentTarget.value);
                 }}/>
-                <button onClick={() => {
-                    dispatch(createNewTodolistTC(value))
-                    setValue('')
-                }}>
+                <button onClick={createNewTodolistHandler}>
                     +
                 </button>
             </div>
             {
 
-            todolists.map(todolist => {
-                return <Todolist key={todolist.id} id={todolist.id} title={todolist.title}/>
-            })
-        }
+                todolists.map(todolist => {
+                    return <Todolist key={todolist.id} id={todolist.id} title={todolist.title}/>
+                })
+            }
 
         </div>)
 
