@@ -29,7 +29,7 @@ const Todolists = () => {
             {
 
                 todolists.map(todolist => {
-                    return <Todolist key={todolist.id} id={todolist.id} title={todolist.title}/>
+                    return <Todolist key={todolist.id} todolistId={todolist.id} title={todolist.title}/>
                 })
             }
 

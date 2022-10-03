@@ -1,31 +1,35 @@
 import Task from "../../Task";
 import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../Hooks/hooks";
-import {addNewTaskTC, fetchTasksTC} from "../../../Reducers/taskReducer";
+import {addNewTaskTC, fetchTasksTC, removeTaskTC} from "../../../Reducers/taskReducer";
 import {changeTodolistTitleTC, removeTodolistTC} from "../../../Reducers/todolistReducer";
 import EditableSpan from "../../EditableSpan";
+import todolists from "../index";
 
 type TodolistPropsType = {
-    id: string
+    todolistId: string
     title: string
 }
 
-const Todolist = ({id, title}: TodolistPropsType) => {
+const Todolist = ({todolistId, title}: TodolistPropsType) => {
     const [value, setValue] = useState('')
     const tasks = useAppSelector(state => state.tasks)
     const dispatch = useAppDispatch()
     const removeTodolistHandler = () => {
-        dispatch(removeTodolistTC(id))
+        dispatch(removeTodolistTC(todolistId))
     }
     const changeTodolistTitle = (title: string) => {
-        dispatch(changeTodolistTitleTC(id, title))
+        dispatch(changeTodolistTitleTC(todolistId, title))
     }
     const createNewTaskHandler = () => {
-        dispatch(addNewTaskTC(id, value))
+        dispatch(addNewTaskTC(todolistId, value))
         setValue('')
     }
+    const removeTask=(id:string)=>{
+        dispatch(removeTaskTC(todolistId,id))
+    }
     useEffect(() => {
-        dispatch(fetchTasksTC(id))
+        dispatch(fetchTasksTC(todolistId))
     }, [])
     return (
         <div>
@@ -42,8 +46,8 @@ const Todolist = ({id, title}: TodolistPropsType) => {
                     </button>
                 </div>
                 <ul>
-                    {tasks[id] && tasks[id].map(task =>
-                        <Task key={task.id} id={task.id} title={task.title} status={task.status}/>)}
+                    {tasks[todolistId] && tasks[todolistId].map(task =>
+                        <Task key={task.id} id={task.id} title={task.title} status={task.status} removeTask={removeTask}/>)}
                 </ul>
 
                 <div>

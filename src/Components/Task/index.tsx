@@ -1,15 +1,20 @@
 import React from "react";
-import {ChangeTaskStatus, RemoveTask} from "../../Reducers/taskReducer";
+import {ChangeTaskStatus, removeTask, removeTaskTC} from "../../Reducers/taskReducer";
 import {useDispatch} from "react-redux";
 
 type TaskPropsType = {
     id:string
     title:string
     status:number
+    removeTask:(id:string)=>void
 }
 
-const Task = ({id, title, status}: TaskPropsType) => {
+const Task = ({id, title, status,removeTask}: TaskPropsType) => {
     const dispatch = useDispatch()
+    const removeTaskHandler=()=>{
+        removeTask(id)
+    }
+
 
     return (
         <div>
@@ -20,9 +25,7 @@ const Task = ({id, title, status}: TaskPropsType) => {
                     dispatch(ChangeTaskStatus(!status, id))
                 }} type={"checkbox"} defaultChecked={!!status}/>
                 <span>{title}</span>
-                <button onClick={() => {
-                    dispatch(RemoveTask(id))
-                }}>X
+                <button onClick={removeTaskHandler}>X
                 </button>
 
             </li>

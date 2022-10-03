@@ -1,6 +1,7 @@
 import {AppThunk} from "../Store/store";
 import {setError, setStatus} from "./appReducer";
 import {taskApi} from "../API/taskApi";
+import App from "../App";
 
 export type TaskType = {
     description: string
@@ -22,8 +23,8 @@ const initialState: TasksStateType = {}
 
 export type taskReducerActionsType =
     ReturnType<typeof ChangeTaskStatus>
-    | ReturnType<typeof AddNewTask>
-    | ReturnType<typeof RemoveTask>
+    | ReturnType<typeof addNewTask>
+    | ReturnType<typeof removeTask>
     | ReturnType<typeof UpdateTask>
     | ReturnType<typeof setTasks>
 
@@ -35,6 +36,9 @@ export const taskReducer = (state: TasksStateType = initialState, action: taskRe
 
         case 'TASK/ADD-TASK': {
             return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
+        }
+        case "TASK/REMOVE-TASK": {
+            return {...state, [action.todolistId]: state[action.todolistId].filter(ts => ts.id !== action.id)}
         }
         default:
             return state
@@ -59,12 +63,12 @@ export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch) =
         dispatch(setStatus('failed'))
     }
 }
-export const AddNewTask = (task: TaskType) => ({type: 'TASK/ADD-TASK', task} as const)
+export const addNewTask = (task: TaskType) => ({type: 'TASK/ADD-TASK', task} as const)
 export const addNewTaskTC = (todolistId: string, title: string): AppThunk => async (dispatch) => {
     dispatch(setStatus('loading'))
     try {
         const task = await taskApi.createTask(todolistId, title)
-        dispatch(AddNewTask(task.data.item))
+        dispatch(addNewTask(task.data.item))
         dispatch(setStatus('succeeded'))
     } catch (err) {
         dispatch(setError(err))
@@ -83,12 +87,24 @@ export const ChangeTaskStatus = (status: boolean, id: string) => {
 }
 
 
-export const RemoveTask = (id: string) => {
+export const removeTask = (id: string, todolistId: string) => {
     return {
-        type: 'REMOVE-TASK',
-        id
+        type: 'TASK/REMOVE-TASK',
+        id,
+        todolistId
     } as const
 
+}
+export const removeTaskTC = ( todolistId: string,id: string): AppThunk => async (dispatch) => {
+    dispatch(setStatus('loading'))
+    try {
+        await taskApi.deleteTask(todolistId, id)
+        dispatch(removeTask(id, todolistId))
+        dispatch(setStatus('succeeded'))
+    } catch (err) {
+        dispatch(setError(err))
+        dispatch(setStatus('failed'))
+    }
 }
 
 export const UpdateTask = (title: string, id: string) => {
