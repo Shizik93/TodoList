@@ -1,24 +1,40 @@
+import {AppThunk} from "../Store/store";
+import {setError, setStatus} from "./appReducer";
+import {taskApi} from "../API/taskApi";
+
 export type TaskType = {
-    id: string
+    description: string
     title: string
-    isDone: boolean
+    completed: boolean
+    status: any
+    priority: any
+    startDate: any
+    deadline: any
+    id: string
+    todoListId: string
+    order: any
+    addedDate: any
 }
 const initialState: Array<TaskType> = []
 
-type taskReducerActionsType =
+export type taskReducerActionsType =
     ReturnType<typeof ChangeTaskStatus>
     | ReturnType<typeof AddNewTask>
     | ReturnType<typeof RemoveTask>
     | ReturnType<typeof UpdateTask>
+    | ReturnType<typeof setTasks>
 
 export const taskReducer = (state: Array<TaskType> = initialState, action: taskReducerActionsType): Array<TaskType> => {
     switch (action.type) {
-        case 'CHANGE-TASK-STATUS': {
-            return state.map(f => f.id === action.id ? {...f, isDone: action.status} : f)
+        case 'TASK/SET-TASKS': {
+            return [...state, ...action.payload]
         }
-        case 'ADD-NEW-TASK': {
-            return [...state, {id: action.id, title: action.title, isDone: false}]
-        }
+        /*      case 'CHANGE-TASK-STATUS': {
+                  return state.map(f => f.id === action.id ? {...f, isDone: action.status} : f)
+              }
+              case 'ADD-NEW-TASK': {
+                  return [...state, {id: action.id, title: action.title, isDone: false}]
+              }*/
         case 'REMOVE-TASK': {
             return state.filter(f => f.id !== action.id)
         }
@@ -30,7 +46,26 @@ export const taskReducer = (state: Array<TaskType> = initialState, action: taskR
     }
 
 }
+export const setTasks = (payload: any, todolistId: string) => {
+    return {
+        type: 'TASK/SET-TASKS',
+        payload,
+        todolistId
+    } as const
+}
+export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch) => {
+    dispatch(setStatus('loading'))
+    try {
+        const tasks = await taskApi.getTasks(todolistId)
+        console.log(tasks)
+        dispatch(setTasks(tasks.items, todolistId))
 
+        dispatch(setStatus('succeeded'))
+    } catch (err) {
+        dispatch(setError(err))
+        dispatch(setStatus('failed'))
+    }
+}
 
 export const ChangeTaskStatus = (status: boolean, id: string) => {
     return {

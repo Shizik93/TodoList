@@ -1,4 +1,4 @@
-type statusType = 'idle' | 'loading' | 'succeeded' | 'false'
+type statusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 type initialStateType = {
     status: statusType,
     error: string,
@@ -10,8 +10,8 @@ const initialState: initialStateType = {
     error: '',
     isAuthorized: true
 }
-type appActionsType = ReturnType<typeof setStatus> | ReturnType<typeof setError> | ReturnType<typeof setAuthorized>
-export const appReducer = (state: initialStateType = initialState, actions: appActionsType): initialStateType => {
+export type appReducerActionsType = ReturnType<typeof setStatus> | ReturnType<typeof setError> | ReturnType<typeof setAuthorized>
+export const appReducer = (state: initialStateType = initialState, actions: appReducerActionsType): initialStateType => {
     switch (actions.type) {
         case 'APP/SET-STATUS': {
             return {...state, status: actions.status}
@@ -36,7 +36,7 @@ export const setStatus = (status: statusType) => {
     } as const
 
 }
-export const setError = (error: string) => {
+export const setError = (error: any) => {
     return {
         type: 'APP/SET-ERROR',
         error

@@ -2,9 +2,13 @@ import React from "react";
 import {ChangeTaskStatus, RemoveTask, TaskType} from "../../Reducers/taskReducer";
 import {useDispatch} from "react-redux";
 
-type TaskPropsType = TaskType
+type TaskPropsType = {
+    id:string
+    title:string
+    status:number
+}
 
-const Task = ({id, title, isDone}: TaskPropsType) => {
+const Task = ({id, title, status}: TaskPropsType) => {
     const dispatch = useDispatch()
     return (
         <div>
@@ -12,8 +16,8 @@ const Task = ({id, title, isDone}: TaskPropsType) => {
 
                 li>
                 <input onClick={() => {
-                    dispatch(ChangeTaskStatus(!isDone, id))
-                }} type={"checkbox"} defaultChecked={isDone}/>
+                    dispatch(ChangeTaskStatus(!status, id))
+                }} type={"checkbox"} defaultChecked={!!status}/>
                 <span>{title}</span>
                 <button onClick={() => {
                     dispatch(RemoveTask(id))

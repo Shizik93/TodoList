@@ -1,14 +1,13 @@
 import React from 'react';
 import './App.css';
-import Todolist from "./Components/Todolist";
-import {useSelector} from "react-redux";
-import {AppRootType} from "./Store/store";
+import Todolists from "./Components/Todolists";
 import Login from "./Components/Login";
+import {useAppSelector} from "./Hooks/hooks";
 
 function App() {
-    const isAuthorized = useSelector((state: AppRootType) => state.app.isAuthorized)
+    const isAuthorized = useAppSelector((state) => state.app.isAuthorized)
     return (
-        isAuthorized ? <Todolist/> : <Login/>
+        isAuthorized ? <Todolists/> : <Login/>
     );
 }
 
