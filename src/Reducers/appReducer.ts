@@ -8,7 +8,7 @@ type initialStateType = {
 const initialState: initialStateType = {
     status: 'idle',
     error: '',
-    isAuthorized: false
+    isAuthorized: true
 }
 type appActionsType = ReturnType<typeof setStatus> | ReturnType<typeof setError> | ReturnType<typeof setAuthorized>
 export const appReducer = (state: initialStateType = initialState, actions: appActionsType): initialStateType => {
