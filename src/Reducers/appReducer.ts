@@ -8,9 +8,12 @@ type initialStateType = {
 const initialState: initialStateType = {
     status: 'idle',
     error: '',
-    isAuthorized: true
+    isAuthorized: false
 }
-export type appReducerActionsType = ReturnType<typeof setStatus> | ReturnType<typeof setError> | ReturnType<typeof setAuthorized>
+export type appReducerActionsType =
+    ReturnType<typeof setStatus>
+    | ReturnType<typeof setError>
+    | ReturnType<typeof setAuthorized>
 export const appReducer = (state: initialStateType = initialState, actions: appReducerActionsType): initialStateType => {
     switch (actions.type) {
         case 'APP/SET-STATUS': {

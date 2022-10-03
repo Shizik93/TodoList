@@ -57,7 +57,6 @@ export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch) =
     dispatch(setStatus('loading'))
     try {
         const tasks = await taskApi.getTasks(todolistId)
-        console.log(tasks)
         dispatch(setTasks(tasks.items, todolistId))
 
         dispatch(setStatus('succeeded'))

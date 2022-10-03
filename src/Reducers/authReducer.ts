@@ -1,6 +1,10 @@
+import {AppThunk} from "../Store/store";
+import {setAuthorized, setError, setStatus} from "./appReducer";
+import {authApi} from "../API/authApi";
+
 const initialState = {}
 
-export type authReducerActionsType=any
+export type authReducerActionsType = any
 
 export const authReducer = (state: any = initialState, actions: any) => {
     switch (actions) {
@@ -21,5 +25,16 @@ export const setLogin = (payload: any) => {
         payload
     } as const
 
+}
+export const authMeTC = (): AppThunk => async (dispatch) => {
+    dispatch(setStatus('loading'))
+    try {
+        await authApi.me()
+        dispatch(setAuthorized(true))
+        dispatch(setStatus('succeeded'))
+    } catch (err) {
+        dispatch(setError(err))
+        dispatch(setStatus('failed'))
+    }
 }
 
