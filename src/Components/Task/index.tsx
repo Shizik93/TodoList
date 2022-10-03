@@ -1,5 +1,5 @@
 import React from "react";
-import {ChangeTaskStatus, RemoveTask, TaskType} from "../../Reducers/taskReducer";
+import {ChangeTaskStatus, RemoveTask} from "../../Reducers/taskReducer";
 import {useDispatch} from "react-redux";
 
 type TaskPropsType = {
@@ -10,6 +10,7 @@ type TaskPropsType = {
 
 const Task = ({id, title, status}: TaskPropsType) => {
     const dispatch = useDispatch()
+
     return (
         <div>
             <

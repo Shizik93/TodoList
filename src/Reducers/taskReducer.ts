@@ -6,16 +6,19 @@ export type TaskType = {
     description: string
     title: string
     completed: boolean
-    status: any
-    priority: any
-    startDate: any
-    deadline: any
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
     id: string
     todoListId: string
-    order: any
-    addedDate: any
+    order: number
+    addedDate: string
 }
-const initialState: Array<TaskType> = []
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}
+const initialState: TasksStateType = {}
 
 export type taskReducerActionsType =
     ReturnType<typeof ChangeTaskStatus>
@@ -24,29 +27,21 @@ export type taskReducerActionsType =
     | ReturnType<typeof UpdateTask>
     | ReturnType<typeof setTasks>
 
-export const taskReducer = (state: Array<TaskType> = initialState, action: taskReducerActionsType): Array<TaskType> => {
+export const taskReducer = (state: TasksStateType = initialState, action: taskReducerActionsType): TasksStateType => {
     switch (action.type) {
         case 'TASK/SET-TASKS': {
-            return [...state, ...action.payload]
+            return {...state, [action.todolistId]: action.payload}
         }
-        /*      case 'CHANGE-TASK-STATUS': {
-                  return state.map(f => f.id === action.id ? {...f, isDone: action.status} : f)
-              }
-              case 'ADD-NEW-TASK': {
-                  return [...state, {id: action.id, title: action.title, isDone: false}]
-              }*/
-        case 'REMOVE-TASK': {
-            return state.filter(f => f.id !== action.id)
-        }
-        case 'UPDATE-TASK': {
-            return state.map(f => f.id === action.id ? {...f, title: action.title} : f)
+
+        case 'TASK/ADD-TASK': {
+            return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
         }
         default:
             return state
     }
 
 }
-export const setTasks = (payload: any, todolistId: string) => {
+export const setTasks = (payload: Array<TaskType>, todolistId: string) => {
     return {
         type: 'TASK/SET-TASKS',
         payload,
@@ -58,12 +53,24 @@ export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch) =
     try {
         const tasks = await taskApi.getTasks(todolistId)
         dispatch(setTasks(tasks.items, todolistId))
-
         dispatch(setStatus('succeeded'))
     } catch (err) {
         dispatch(setError(err))
         dispatch(setStatus('failed'))
     }
+}
+export const AddNewTask = (task: TaskType) => ({type: 'TASK/ADD-TASK', task} as const)
+export const addNewTaskTC = (todolistId: string, title: string): AppThunk => async (dispatch) => {
+    dispatch(setStatus('loading'))
+    try {
+        const task = await taskApi.createTask(todolistId, title)
+        dispatch(AddNewTask(task.data.item))
+        dispatch(setStatus('succeeded'))
+    } catch (err) {
+        dispatch(setError(err))
+        dispatch(setStatus('failed'))
+    }
+
 }
 
 export const ChangeTaskStatus = (status: boolean, id: string) => {
@@ -75,14 +82,6 @@ export const ChangeTaskStatus = (status: boolean, id: string) => {
 
 }
 
-export const AddNewTask = (id: string, title: string) => {
-    return {
-        type: 'ADD-NEW-TASK',
-        title,
-        id,
-    } as const
-
-}
 
 export const RemoveTask = (id: string) => {
     return {

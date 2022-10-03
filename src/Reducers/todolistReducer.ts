@@ -39,7 +39,6 @@ export const fetchTodolistsTC = (): AppThunk => async (dispatch) => {
     dispatch(setStatus('loading'))
     try {
         const todolists = await todoApi.fetchTodolists()
-        console.log(todolists)
         dispatch(setTodolists(todolists))
         dispatch(setStatus('succeeded'))
     } catch (err) {
