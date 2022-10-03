@@ -2,6 +2,7 @@ import Task from "../../Task";
 import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../Hooks/hooks";
 import {fetchTasksTC} from "../../../Reducers/taskReducer";
+import {removeTodolistTC} from "../../../Reducers/todolistReducer";
 
 type TodolistPropsType = {
     id: string
@@ -19,6 +20,10 @@ const Todolist = ({id, title}: TodolistPropsType) => {
         <div>
             <div>
                 <h3>{title}</h3>
+                <button onClick={() => {
+                    dispatch(removeTodolistTC(id))
+                }}>X
+                </button>
                 <div>
                     <input value={value} onChange={(e) => {
                         setValue(e.currentTarget.value);

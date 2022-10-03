@@ -13,6 +13,10 @@ export const todolistReducer = (state: Array<TodolistDomainType> = initialState,
         case 'TODO/CREATE-NEW-TODO-LIST': {
             return [{...actions.payload, filter: 'all', entityStatus: 'idle'}, ...state]
         }
+        case 'TODO/REMOVE-TODO-LIST':{
+            return state.filter(tl=>tl.id!==actions.id)
+        }
+
         default: {
             return state
         }
@@ -60,6 +64,25 @@ export const createNewTodolistTC = (title: string): AppThunk => async (dispatch)
 
 }
 
+export const removeTodolist = (id: string) => {
+    return {
+        type: 'TODO/REMOVE-TODO-LIST',
+        id
+    } as const
+}
+
+export const removeTodolistTC = (id: string): AppThunk => async (dispatch) => {
+    dispatch(setStatus('loading'))
+    try {
+        await todoApi.deleteTodolist(id)
+        dispatch(removeTodolist(id))
+        dispatch(setStatus('succeeded'))
+    } catch (err) {
+        dispatch(setError(err))
+        dispatch(setStatus('failed'))
+    }
+}
+
 
 export type todolistType = {
     addedDate: string
@@ -67,7 +90,10 @@ export type todolistType = {
     order: number
     title: string
 }
-export type todolistActionsType = ReturnType<typeof setTodolists> | ReturnType<typeof createNewTodolist>
+export type todolistActionsType =
+    ReturnType<typeof setTodolists>
+    | ReturnType<typeof createNewTodolist>
+    | ReturnType<typeof removeTodolist>
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = todolistType & {
     filter: FilterValuesType
