@@ -1,7 +1,7 @@
 import Task from "../../Task";
 import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../Hooks/hooks";
-import {addNewTaskTC, fetchTasksTC, removeTaskTC} from "../../../Reducers/taskReducer";
+import {addNewTaskTC, fetchTasksTC, removeTaskTC, updateTaskTC} from "../../../Reducers/taskReducer";
 import {changeTodolistTitleTC, removeTodolistTC} from "../../../Reducers/todolistReducer";
 import EditableSpan from "../../EditableSpan";
 import todolists from "../index";
@@ -25,8 +25,12 @@ const Todolist = ({todolistId, title}: TodolistPropsType) => {
         dispatch(addNewTaskTC(todolistId, value))
         setValue('')
     }
-    const removeTask=(id:string)=>{
-        dispatch(removeTaskTC(todolistId,id))
+    const removeTask = (id: string) => {
+        dispatch(removeTaskTC(todolistId, id))
+    }
+    const updateTasksTitle = (id: string, title: string) => {
+        dispatch(updateTaskTC(title, id, todolistId))
+
     }
     useEffect(() => {
         dispatch(fetchTasksTC(todolistId))
@@ -47,7 +51,8 @@ const Todolist = ({todolistId, title}: TodolistPropsType) => {
                 </div>
                 <ul>
                     {tasks[todolistId] && tasks[todolistId].map(task =>
-                        <Task key={task.id} id={task.id} title={task.title} status={task.status} removeTask={removeTask}/>)}
+                        <Task key={task.id} id={task.id} title={task.title} status={task.status}
+                              removeTask={removeTask} updateTask={updateTasksTitle}/>)}
                 </ul>
 
                 <div>

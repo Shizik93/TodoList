@@ -25,7 +25,7 @@ export type taskReducerActionsType =
     ReturnType<typeof ChangeTaskStatus>
     | ReturnType<typeof addNewTask>
     | ReturnType<typeof removeTask>
-    | ReturnType<typeof UpdateTask>
+    | ReturnType<typeof updateTask>
     | ReturnType<typeof setTasks>
 
 export const taskReducer = (state: TasksStateType = initialState, action: taskReducerActionsType): TasksStateType => {
@@ -39,6 +39,10 @@ export const taskReducer = (state: TasksStateType = initialState, action: taskRe
         }
         case "TASK/REMOVE-TASK": {
             return {...state, [action.todolistId]: state[action.todolistId].filter(ts => ts.id !== action.id)}
+        }
+        case 'TASK/UPDATE-TASK': {
+            return {...state, [action.task.todoListId]: state[action.task.todoListId].map(ts => ts.id === action.task.id ? {...ts,...action.task} : ts)
+            }
         }
         default:
             return state
@@ -95,7 +99,7 @@ export const removeTask = (id: string, todolistId: string) => {
     } as const
 
 }
-export const removeTaskTC = ( todolistId: string,id: string): AppThunk => async (dispatch) => {
+export const removeTaskTC = (todolistId: string, id: string): AppThunk => async (dispatch) => {
     dispatch(setStatus('loading'))
     try {
         await taskApi.deleteTask(todolistId, id)
@@ -107,11 +111,23 @@ export const removeTaskTC = ( todolistId: string,id: string): AppThunk => async 
     }
 }
 
-export const UpdateTask = (title: string, id: string) => {
+export const updateTask = (task: TaskType) => {
     return {
-        type: 'UPDATE-TASK',
-        title,
-        id,
+        type: 'TASK/UPDATE-TASK',
+        task
     } as const
 
 }
+
+export const updateTaskTC = (title: string, id: string, todolistID: string): AppThunk => async (dispatch) => {
+    dispatch(setStatus('loading'))
+    try {
+        const updateTasks = await taskApi.updateTask(todolistID, id, title)
+        dispatch(updateTask(updateTasks.data.item))
+        dispatch(setStatus('succeeded'))
+    } catch (err) {
+        dispatch(setError(err))
+        dispatch(setStatus('failed'))
+    }
+}
+

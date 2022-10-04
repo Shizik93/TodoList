@@ -1,18 +1,23 @@
 import React from "react";
 import {ChangeTaskStatus, removeTask, removeTaskTC} from "../../Reducers/taskReducer";
 import {useDispatch} from "react-redux";
+import EditableSpan from "../EditableSpan";
 
 type TaskPropsType = {
     id:string
     title:string
     status:number
     removeTask:(id:string)=>void
+    updateTask:(id:string,title:string)=>void
 }
 
-const Task = ({id, title, status,removeTask}: TaskPropsType) => {
+const Task = ({id, title, status,removeTask,updateTask}: TaskPropsType) => {
     const dispatch = useDispatch()
     const removeTaskHandler=()=>{
         removeTask(id)
+    }
+    const updateTaskHandler=(title:string)=>{
+        updateTask(id,title)
     }
 
 
@@ -24,7 +29,7 @@ const Task = ({id, title, status,removeTask}: TaskPropsType) => {
                 <input onClick={() => {
                     dispatch(ChangeTaskStatus(!status, id))
                 }} type={"checkbox"} defaultChecked={!!status}/>
-                <span>{title}</span>
+                <EditableSpan title={title} callback={updateTaskHandler}/>
                 <button onClick={removeTaskHandler}>X
                 </button>
 

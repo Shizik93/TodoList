@@ -13,6 +13,6 @@ export const taskApi = {
 
     },
     updateTask: (todolistId: string, taskId: string, title: string) => {
-        return instance.put(`/todo-lists/${todolistId}/tasks/${taskId}`, {title})
+        return instance.put(`/todo-lists/${todolistId}/tasks/${taskId}`, {title}).then(res => res.data)
     }
 }
