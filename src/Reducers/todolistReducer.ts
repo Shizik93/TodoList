@@ -65,7 +65,7 @@ export const createNewTodolistTC =
     try {
       const todolist = await todoApi.createNewTodolist(title);
 
-      dispatch(createNewTodolist(todolist.item));
+      dispatch(createNewTodolist(todolist.data.item));
       dispatch(setStatus('succeeded'));
     } catch (err) {
       dispatch(setError(err));

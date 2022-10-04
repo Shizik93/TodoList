@@ -2,6 +2,7 @@ import { taskApi } from '../API/taskApi';
 import { AppThunk } from '../Store/store';
 
 import { setError, setStatus } from './appReducer';
+import { createNewTodolist, setTodolists } from './todolistReducer';
 
 export type TaskType = {
   description: string;
@@ -26,7 +27,9 @@ export type taskReducerActionsType =
   | ReturnType<typeof addNewTask>
   | ReturnType<typeof removeTask>
   | ReturnType<typeof updateTask>
-  | ReturnType<typeof setTasks>;
+  | ReturnType<typeof setTasks>
+  | ReturnType<typeof createNewTodolist>
+  | ReturnType<typeof setTodolists>;
 
 export const taskReducer = (
   // eslint-disable-next-line default-param-last
@@ -57,6 +60,17 @@ export const taskReducer = (
           ts.id === action.task.id ? { ...ts, ...action.task } : ts,
         ),
       };
+    }
+    case 'TODO/CREATE-NEW-TODO-LIST':
+      return { ...state, [action.payload.id]: [] };
+    case 'TODO/SET-TODO-LISTS': {
+      const copyState = { ...state };
+
+      action.payload.forEach(tl => {
+        copyState[tl.id] = [];
+      });
+
+      return copyState;
     }
     default:
       return state;
