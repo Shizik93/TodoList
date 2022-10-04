@@ -17,9 +17,10 @@ import Task from '../../Task';
 type TodolistPropsType = {
   todolistId: string;
   title: string;
+  demo?: boolean;
 };
 
-const Todolist = ({ todolistId, title }: TodolistPropsType) => {
+const Todolist = ({ todolistId, title, demo }: TodolistPropsType) => {
   const [value, setValue] = useState('');
   const tasks = useAppSelector(state => state.tasks);
   const dispatch = useAppDispatch();

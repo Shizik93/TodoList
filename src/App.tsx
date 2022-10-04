@@ -36,7 +36,7 @@ const App = ({ demo = false }: AppPropsType): ReactElement => {
       <ButtonAppBar />
       <Container fixed>
         <Routes>
-          <Route path="/" element={<Todolists />} />
+          <Route path="/" element={<Todolists demo={demo} />} />
           <Route path="/to-do-list" element={<Navigate to="/" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>} />
