@@ -8,23 +8,25 @@ const initialState: Array<TodolistDomainType> = [];
 export const todolistReducer = (
   // eslint-disable-next-line default-param-last
   state: Array<TodolistDomainType> = initialState,
-  actions: todolistActionsType,
+  action: todolistActionsType,
 ): Array<TodolistDomainType> => {
-  switch (actions.type) {
+  switch (action.type) {
     case 'TODO/SET-TODO-LISTS': {
-      return actions.payload.map(tl => ({ ...tl, filter: 'all', entityStatus: 'idle' }));
+      return action.payload.map(tl => ({ ...tl, filter: 'all', entityStatus: 'idle' }));
     }
     case 'TODO/CREATE-NEW-TODO-LIST': {
-      return [{ ...actions.payload, filter: 'all', entityStatus: 'idle' }, ...state];
+      return [{ ...action.payload, filter: 'all', entityStatus: 'idle' }, ...state];
     }
     case 'TODO/REMOVE-TODO-LIST': {
-      return state.filter(tl => tl.id !== actions.id);
+      return state.filter(tl => tl.id !== action.id);
     }
     case 'TODO/CHANGE-TODO-LIST-TITLE': {
-      return state.map(tl =>
-        tl.id === actions.id ? { ...tl, title: actions.title } : tl,
-      );
+      return state.map(tl => (tl.id === action.id ? { ...tl, title: action.title } : tl));
     }
+    case 'TODO/CHANGE-TODOLIST-FILTER':
+      return state.map(tl =>
+        tl.id === action.id ? { ...tl, filter: action.filter } : tl,
+      );
 
     default: {
       return state;
@@ -115,6 +117,13 @@ export const changeTodolistTitleTC =
     }
   };
 
+export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) =>
+  ({
+    type: 'TODO/CHANGE-TODOLIST-FILTER',
+    id,
+    filter,
+  } as const);
+
 export type todolistType = {
   addedDate: string;
   id: string;
@@ -125,7 +134,8 @@ export type todolistActionsType =
   | ReturnType<typeof setTodolists>
   | ReturnType<typeof createNewTodolist>
   | ReturnType<typeof removeTodolist>
-  | ReturnType<typeof chaneTodolistTitle>;
+  | ReturnType<typeof chaneTodolistTitle>
+  | ReturnType<typeof changeTodolistFilterAC>;
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = todolistType & {
   filter: FilterValuesType;

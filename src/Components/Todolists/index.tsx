@@ -42,7 +42,14 @@ const Todolists = ({ demo }: TodoListsPropsType) => {
           return (
             <Grid item key={el.id}>
               <Paper style={{ padding: '10px' }}>
-                <Todolist key={el.id} todolistId={el.id} title={el.title} demo={demo} />
+                <Todolist
+                  key={el.id}
+                  todolistId={el.id}
+                  title={el.title}
+                  demo={demo}
+                  filter={el.filter}
+                  entityStatus={el.entityStatus}
+                />
               </Paper>
             </Grid>
           );
