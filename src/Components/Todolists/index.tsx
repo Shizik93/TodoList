@@ -13,10 +13,9 @@ const Todolists = ({ demo }: TodoListsPropsType) => {
   const isAuthorized = useAppSelector(state => state.app.isAuthorized);
   const todolists = useAppSelector(state => state.todolists);
   const dispatch = useAppDispatch();
-  const [value, setValue] = useState('');
-  const createNewTodolistHandler = () => {
-    dispatch(createNewTodolistTC(value));
-    setValue('');
+
+  const createNewTodolistHandler = (title: string) => {
+    dispatch(createNewTodolistTC(title));
   };
 
   useEffect(() => {

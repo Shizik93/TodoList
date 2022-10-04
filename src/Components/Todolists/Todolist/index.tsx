@@ -38,7 +38,7 @@ const Todolist = ({
 }: TodolistPropsType) => {
   const completeStatus = 2;
   const activeStatus = 0;
-  const [value, setValue] = useState('');
+
   const tasks = useAppSelector(state => state.tasks);
   const dispatch = useAppDispatch();
   const removeTodolistHandler = () => {
@@ -47,9 +47,8 @@ const Todolist = ({
   const changeTodolistTitle = (title: string) => {
     dispatch(changeTodolistTitleTC(todolistId, title));
   };
-  const createNewTaskHandler = () => {
-    dispatch(addNewTaskTC(todolistId, value));
-    setValue('');
+  const createNewTaskHandler = (title: string) => {
+    dispatch(addNewTaskTC(todolistId, title));
   };
   const removeTask = (id: string) => {
     dispatch(removeTaskTC(todolistId, id));
