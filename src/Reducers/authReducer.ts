@@ -37,3 +37,15 @@ export const authMeTC = (): AppThunk => async dispatch => {
     dispatch(setStatus('failed'));
   }
 };
+
+export const logoutTC = (): AppThunk => async dispatch => {
+  dispatch(setStatus('loading'));
+  try {
+    await authApi.logout();
+    dispatch(setAuthorized(false));
+    dispatch(setStatus('succeeded'));
+  } catch (err) {
+    dispatch(setError(err));
+    dispatch(setStatus('failed'));
+  }
+};
