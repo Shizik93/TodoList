@@ -49,3 +49,16 @@ export const logoutTC = (): AppThunk => async dispatch => {
     dispatch(setStatus('failed'));
   }
 };
+export const loginTC =
+  (email: string, password: string, rememberMe: boolean): AppThunk =>
+  async dispatch => {
+    dispatch(setStatus('loading'));
+    try {
+      await authApi.login(email, password, rememberMe);
+      dispatch(setAuthorized(false));
+      dispatch(setStatus('succeeded'));
+    } catch (err) {
+      dispatch(setError(err));
+      dispatch(setStatus('failed'));
+    }
+  };
