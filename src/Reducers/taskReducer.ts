@@ -1,5 +1,5 @@
-import { taskApi } from '../API/taskApi';
-import { AppThunk } from '../Store/store';
+import { taskApi, UpdateTaskModelType } from '../API/taskApi';
+import { AppRootStateType, AppThunk } from '../Store/store';
 
 import { setError, setStatus } from './appReducer';
 import { createNewTodolist, setTodolists } from './todolistReducer';
@@ -150,11 +150,31 @@ export const updateTask = (task: TaskType) => {
 };
 
 export const updateTaskTC =
-  (title: string, id: string, todolistID: string): AppThunk =>
-  async dispatch => {
+  (domainModel: UpdateDomainTaskModelType, id: string, todolistID: string): AppThunk =>
+  async (dispatch, getState: () => AppRootStateType) => {
+    const state = getState();
+    const task = state.tasks[todolistID].find(t => t.id === id);
+
+    if (!task) {
+      // throw new Error("task not found in the state");
+      console.warn('task not found in the state');
+
+      return;
+    }
+
+    const apiModel: UpdateTaskModelType = {
+      deadline: task.deadline,
+      description: task.description,
+      priority: task.priority,
+      startDate: task.startDate,
+      title: task.title,
+      status: task.status,
+      ...domainModel,
+    };
+
     dispatch(setStatus('loading'));
     try {
-      const updateTasks = await taskApi.updateTask(todolistID, id, title);
+      const updateTasks = await taskApi.updateTask(todolistID, id, apiModel);
 
       dispatch(updateTask(updateTasks.data.item));
       dispatch(setStatus('succeeded'));
@@ -163,3 +183,12 @@ export const updateTaskTC =
       dispatch(setStatus('failed'));
     }
   };
+
+export type UpdateDomainTaskModelType = {
+  title?: string;
+  description?: string;
+  status?: number;
+  priority?: number;
+  startDate?: string;
+  deadline?: string;
+};

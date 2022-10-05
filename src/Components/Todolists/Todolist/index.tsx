@@ -36,10 +36,8 @@ const Todolist = ({
   filter,
   entityStatus,
 }: TodolistPropsType) => {
-  const completeStatus = 2;
-  const activeStatus = 0;
-
   const tasks = useAppSelector(state => state.tasks);
+
   const dispatch = useAppDispatch();
   const removeTodolistHandler = () => {
     dispatch(removeTodolistTC(todolistId));
@@ -54,7 +52,7 @@ const Todolist = ({
     dispatch(removeTaskTC(todolistId, id));
   };
   const updateTasksTitle = (id: string, title: string) => {
-    dispatch(updateTaskTC(title, id, todolistId));
+    dispatch(updateTaskTC({ title }, id, todolistId));
   };
 
   const changeFilter = (filter: FilterValuesType) => {
@@ -68,10 +66,10 @@ const Todolist = ({
   let tasksForTodolist = tasks[todolistId];
 
   if (filter === 'active') {
-    tasksForTodolist = tasks[todolistId].filter(t => t.status === activeStatus);
+    tasksForTodolist = tasks[todolistId].filter(t => t.status === TaskStatuses.Active);
   }
   if (filter === 'completed') {
-    tasksForTodolist = tasks[todolistId].filter(t => t.status === completeStatus);
+    tasksForTodolist = tasks[todolistId].filter(t => t.status === TaskStatuses.Completed);
   }
 
   return (
@@ -109,6 +107,7 @@ const Todolist = ({
               status={task.status}
               removeTask={removeTask}
               updateTask={updateTasksTitle}
+              entityStatus={entityStatus}
             />
           );
         })
@@ -141,5 +140,7 @@ const Todolist = ({
     </div>
   );
 };
+
+export const TaskStatuses = { Active: 0, Completed: 2 };
 
 export default Todolist;
