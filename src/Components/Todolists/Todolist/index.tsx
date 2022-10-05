@@ -26,16 +26,9 @@ type TodolistPropsType = {
   todolistId: string;
   title: string;
   filter: FilterValuesType;
-  demo?: boolean;
 };
 
-const Todolist = ({
-  todolistId,
-  title,
-  demo,
-  filter,
-  entityStatus,
-}: TodolistPropsType) => {
+const Todolist = ({ todolistId, title, filter, entityStatus }: TodolistPropsType) => {
   const tasks = useAppSelector(state => state.tasks);
 
   const dispatch = useAppDispatch();

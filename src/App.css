@@ -2,8 +2,7 @@
     padding: 30px;
     display: flex;
     flex-direction: column;
-    /*background: url("../../assets/img/bg.jpg");*/
-    background-size: 100%;
+
 }
 
 .App > div {

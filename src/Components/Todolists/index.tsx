@@ -45,7 +45,6 @@ const Todolists = ({ demo }: TodoListsPropsType) => {
                   key={el.id}
                   todolistId={el.id}
                   title={el.title}
-                  demo={demo}
                   filter={el.filter}
                   entityStatus={el.entityStatus}
                 />
