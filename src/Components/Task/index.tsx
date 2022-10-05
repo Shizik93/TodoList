@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { Delete } from '@mui/icons-material';
 import { Checkbox, IconButton } from '@mui/material';
-import { useDispatch } from 'react-redux';
 
 import { RequestStatusType } from '../../Reducers/appReducer';
-import { ChangeTaskStatus } from '../../Reducers/taskReducer';
 import EditableSpan from '../EditableSpan';
 import { TaskStatuses } from '../Todolists/Todolist';
 
@@ -15,6 +13,7 @@ type TaskPropsType = {
   status: number;
   removeTask: (id: string) => void;
   updateTask: (id: string, title: string) => void;
+  changeTaskStatus: (id: string, value: number) => void;
   entityStatus: RequestStatusType;
 };
 
@@ -25,20 +24,28 @@ const Task = ({
   removeTask,
   updateTask,
   entityStatus,
+  changeTaskStatus,
 }: TaskPropsType) => {
-  const dispatch = useDispatch();
   const removeTaskHandler = () => {
     removeTask(id);
   };
   const updateTaskHandler = (title: string) => {
     updateTask(id, title);
   };
+  const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    changeTaskStatus(
+      id,
+      e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.Active,
+    );
+  };
+
   const isDisabledChangeTask = entityStatus === 'loading';
 
   return (
     <div style={{ minWidth: '200px', display: 'flex', justifyContent: 'space-Between' }}>
       <Checkbox
         style={{ color: '#7F77E0' }}
+        onChange={changeTaskStatusHandler}
         checked={status === TaskStatuses.Completed}
         disabled={isDisabledChangeTask}
       />

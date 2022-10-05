@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Delete } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
@@ -39,6 +39,9 @@ const Todolist = ({
   const tasks = useAppSelector(state => state.tasks);
 
   const dispatch = useAppDispatch();
+  const changeTaskStatus = (id: string, status: number) => {
+    dispatch(updateTaskTC({ status }, id, todolistId));
+  };
   const removeTodolistHandler = () => {
     dispatch(removeTodolistTC(todolistId));
   };
@@ -107,6 +110,7 @@ const Todolist = ({
               status={task.status}
               removeTask={removeTask}
               updateTask={updateTasksTitle}
+              changeTaskStatus={changeTaskStatus}
               entityStatus={entityStatus}
             />
           );
