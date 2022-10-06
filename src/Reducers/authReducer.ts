@@ -1,5 +1,6 @@
 import { authApi } from '../API/authApi';
 import { AppThunk } from '../Store/store';
+import { handleServerNetworkError } from '../Utils/error-utils';
 
 import { setAuthorized, setError, setStatus } from './appReducer';
 
@@ -43,8 +44,7 @@ export const authMeTC = (): AppThunk => async dispatch => {
       dispatch(setStatus('failed'));
     }
   } catch (err) {
-    dispatch(setError(err));
-    dispatch(setStatus('failed'));
+    handleServerNetworkError(err as Error, dispatch);
   }
 };
 
@@ -55,8 +55,7 @@ export const logoutTC = (): AppThunk => async dispatch => {
     dispatch(setIsLoggedInAC(false));
     dispatch(setStatus('succeeded'));
   } catch (err) {
-    dispatch(setError(err));
-    dispatch(setStatus('failed'));
+    handleServerNetworkError(err as Error, dispatch);
   }
 };
 export const loginTC =
@@ -68,7 +67,6 @@ export const loginTC =
       dispatch(setIsLoggedInAC(true));
       dispatch(setStatus('succeeded'));
     } catch (err) {
-      dispatch(setError(err));
-      dispatch(setStatus('failed'));
+      handleServerNetworkError(err as Error, dispatch);
     }
   };

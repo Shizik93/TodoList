@@ -1,7 +1,8 @@
 import { todoApi } from '../API/todoApi';
 import { AppThunk } from '../Store/store';
+import { handleServerNetworkError } from '../Utils/error-utils';
 
-import { RequestStatusType, setError, setStatus } from './appReducer';
+import { RequestStatusType, setStatus } from './appReducer';
 
 const initialState: Array<TodolistDomainType> = [];
 
@@ -49,8 +50,7 @@ export const fetchTodolistsTC = (): AppThunk => async dispatch => {
     dispatch(setTodolists(todolists.data));
     dispatch(setStatus('succeeded'));
   } catch (err) {
-    dispatch(setError(err));
-    dispatch(setStatus('failed'));
+    handleServerNetworkError(err as Error, dispatch);
   }
 };
 export const createNewTodolist = (payload: TodolistType) => {
@@ -70,8 +70,7 @@ export const createNewTodolistTC =
       dispatch(createNewTodolist(todolist.data.data.item));
       dispatch(setStatus('succeeded'));
     } catch (err) {
-      dispatch(setError(err));
-      dispatch(setStatus('failed'));
+      handleServerNetworkError(err as Error, dispatch);
     }
   };
 
@@ -91,8 +90,7 @@ export const removeTodolistTC =
       dispatch(removeTodolist(id));
       dispatch(setStatus('succeeded'));
     } catch (err) {
-      dispatch(setError(err));
-      dispatch(setStatus('failed'));
+      handleServerNetworkError(err as Error, dispatch);
     }
   };
 
@@ -112,8 +110,7 @@ export const changeTodolistTitleTC =
       dispatch(chaneTodolistTitle(id, title));
       dispatch(setStatus('succeeded'));
     } catch (err) {
-      dispatch(setError(err));
-      dispatch(setStatus('failed'));
+      handleServerNetworkError(err as Error, dispatch);
     }
   };
 

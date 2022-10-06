@@ -1,13 +1,13 @@
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 type initialStateType = {
   status: RequestStatusType;
-  error: string;
+  error: string | null;
   isInitialized: boolean;
 };
 
 const initialState: initialStateType = {
   status: 'idle',
-  error: '',
+  error: null,
   isInitialized: false,
 };
 
@@ -25,7 +25,7 @@ export const appReducer = (
       return { ...state, status: actions.status };
     }
     case 'APP/SET-ERROR': {
-      return { ...state, error: actions.errorMessage };
+      return { ...state, error: actions.error };
     }
     case 'APP/SET-AUTHORIZED': {
       return { ...state, isInitialized: actions.isInitialized };
@@ -41,12 +41,10 @@ export const setStatus = (status: RequestStatusType) => {
     status,
   } as const;
 };
-export const setError = (error: any) => {
-  const errorMessage = error.message;
-
+export const setError = (error: string | null) => {
   return {
     type: 'APP/SET-ERROR',
-    errorMessage,
+    error,
   } as const;
 };
 export const setAuthorized = (isInitialized: boolean) => {

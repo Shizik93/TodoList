@@ -1,7 +1,8 @@
 import { taskApi, UpdateTaskModelType } from '../API/taskApi';
 import { AppRootStateType, AppThunk } from '../Store/store';
+import { handleServerAppError, handleServerNetworkError } from '../Utils/error-utils';
 
-import { setError, setStatus } from './appReducer';
+import { setStatus } from './appReducer';
 import { createNewTodolist, setTodolists } from './todolistReducer';
 
 const initialState: TasksStateType = {};
@@ -68,8 +69,7 @@ export const fetchTasksTC =
       dispatch(setTasks(tasks.data.items, todolistId));
       dispatch(setStatus('succeeded'));
     } catch (err) {
-      dispatch(setError(err));
-      dispatch(setStatus('failed'));
+      handleServerNetworkError(err as Error, dispatch);
     }
   };
 export const addNewTask = (task: TaskType) => ({ type: 'TASK/ADD-TASK', task } as const);
@@ -80,11 +80,14 @@ export const addNewTaskTC =
     try {
       const task = await taskApi.createTask(todolistId, title);
 
-      dispatch(addNewTask(task.data.data.item));
-      dispatch(setStatus('succeeded'));
+      if (task.data.resultCode === 0) {
+        dispatch(addNewTask(task.data.data.item));
+        dispatch(setStatus('succeeded'));
+      } else {
+        handleServerAppError(task.data, dispatch);
+      }
     } catch (err) {
-      dispatch(setError(err));
-      dispatch(setStatus('failed'));
+      handleServerNetworkError(err as Error, dispatch);
     }
   };
 
@@ -112,8 +115,7 @@ export const removeTaskTC =
       dispatch(removeTask(id, todolistId));
       dispatch(setStatus('succeeded'));
     } catch (err) {
-      dispatch(setError(err));
-      dispatch(setStatus('failed'));
+      handleServerNetworkError(err as Error, dispatch);
     }
   };
 
@@ -151,11 +153,14 @@ export const updateTaskTC =
     try {
       const updateTasks = await taskApi.updateTask(todolistID, id, apiModel);
 
-      dispatch(updateTask(updateTasks.data.data.item));
-      dispatch(setStatus('succeeded'));
+      if (updateTasks.data.resultCode === 0) {
+        dispatch(updateTask(updateTasks.data.data.item));
+        dispatch(setStatus('succeeded'));
+      } else {
+        handleServerAppError(updateTasks.data, dispatch);
+      }
     } catch (err) {
-      dispatch(setError(err));
-      dispatch(setStatus('failed'));
+      handleServerNetworkError(err as Error, dispatch);
     }
   };
 
