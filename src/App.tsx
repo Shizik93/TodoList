@@ -11,18 +11,15 @@ import Todolists from './Components/Todolists';
 import { useAppDispatch, useAppSelector } from './Hooks/hooks';
 import { authMeTC } from './Reducers/authReducer';
 
-const App = ({ demo = false }: AppPropsType): ReactElement => {
+const App = (): ReactElement => {
   const dispatch = useAppDispatch();
 
-  const isAuthorized = useAppSelector(state => state.app.isAuthorized);
+  const isInitialized = useAppSelector(state => state.app.isInitialized);
 
   useEffect(() => {
-    if (!demo) {
-      dispatch(authMeTC());
-    }
-  }, [dispatch, demo]);
-
-  if (!isAuthorized) {
+    dispatch(authMeTC());
+  }, [dispatch]);
+  if (!isInitialized) {
     return (
       <div style={{ position: 'fixed', top: '30%', textAlign: 'center', width: '100%' }}>
         <CircularProgress />
@@ -36,7 +33,7 @@ const App = ({ demo = false }: AppPropsType): ReactElement => {
       <ButtonAppBar />
       <Container fixed>
         <Routes>
-          <Route path="/" element={<Todolists demo={demo} />} />
+          <Route path="/" element={<Todolists />} />
           <Route path="/to-do-list" element={<Navigate to="/" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>} />
@@ -48,9 +45,3 @@ const App = ({ demo = false }: AppPropsType): ReactElement => {
 };
 
 export default App;
-
-// =============================Types=============================
-
-type AppPropsType = {
-  demo?: boolean;
-};

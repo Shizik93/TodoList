@@ -3,35 +3,45 @@ import { AppThunk } from '../Store/store';
 
 import { setAuthorized, setError, setStatus } from './appReducer';
 
-const initialState = {};
+const initialState = {
+  isLoggedIn: false,
+};
 
-export type authReducerActionsType = any;
+type InitialStateType = {
+  isLoggedIn: boolean;
+};
+export type authReducerActionsType = ReturnType<typeof setIsLoggedInAC>;
 
-// eslint-disable-next-line default-param-last
-export const authReducer = (state: any = initialState, actions: any) => {
-  switch (actions) {
-    case 'AUTH/SET-IS-LOGGED-IN':
-    case 'AUTH/SET-IS-LOGGED-OUT': {
-      return { ...state, ...actions.payload };
-    }
-    default: {
+export const authReducer = (
+  // eslint-disable-next-line default-param-last
+  state: InitialStateType = initialState,
+  action: authReducerActionsType,
+): InitialStateType => {
+  switch (action.type) {
+    case 'login/SET-IS-LOGGED-IN':
+      return { ...state, isLoggedIn: action.value };
+    default:
       return state;
-    }
   }
 };
 
-export const setLogin = (payload: any) => {
-  return {
-    type: 'AUTH/SET-IS-LOGGED-IN',
-    payload,
-  } as const;
-};
+export const setIsLoggedInAC = (value: boolean) =>
+  ({ type: 'login/SET-IS-LOGGED-IN', value } as const);
+
 export const authMeTC = (): AppThunk => async dispatch => {
   dispatch(setStatus('loading'));
   try {
-    await authApi.me();
-    dispatch(setAuthorized(true));
-    dispatch(setStatus('succeeded'));
+    const response = await authApi.me();
+
+    if (response.resultCode === 0) {
+      dispatch(setAuthorized(true));
+      dispatch(setIsLoggedInAC(true));
+      dispatch(setStatus('succeeded'));
+    } else {
+      dispatch(setAuthorized(true));
+      dispatch(setError(response.messages[0]));
+      dispatch(setStatus('failed'));
+    }
   } catch (err) {
     dispatch(setError(err));
     dispatch(setStatus('failed'));
@@ -42,7 +52,7 @@ export const logoutTC = (): AppThunk => async dispatch => {
   dispatch(setStatus('loading'));
   try {
     await authApi.logout();
-    dispatch(setAuthorized(false));
+    dispatch(setIsLoggedInAC(false));
     dispatch(setStatus('succeeded'));
   } catch (err) {
     dispatch(setError(err));
@@ -55,7 +65,7 @@ export const loginTC =
     dispatch(setStatus('loading'));
     try {
       await authApi.login(email, password, rememberMe);
-      dispatch(setAuthorized(false));
+      dispatch(setIsLoggedInAC(true));
       dispatch(setStatus('succeeded'));
     } catch (err) {
       dispatch(setError(err));

@@ -38,7 +38,7 @@ const ButtonAppBar = () => {
           </Typography>
           {isLoggedIn && (
             <Button color="inherit" onClick={onClickButtonHandler}>
-              Login
+              Logout
             </Button>
           )}
         </Toolbar>

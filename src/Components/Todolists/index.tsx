@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Grid, Paper } from '@mui/material';
 import { Navigate } from 'react-router-dom';
@@ -9,8 +9,8 @@ import FullInput from '../FullInput';
 
 import Todolist from './Todolist';
 
-const Todolists = ({ demo }: TodoListsPropsType) => {
-  const isAuthorized = useAppSelector(state => state.app.isAuthorized);
+const Todolists = () => {
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
   const todolists = useAppSelector(state => state.todolists);
   const dispatch = useAppDispatch();
 
@@ -19,15 +19,12 @@ const Todolists = ({ demo }: TodoListsPropsType) => {
   };
 
   useEffect(() => {
-    if (demo) {
-      return;
-    }
-    if (isAuthorized) {
+    if (isLoggedIn) {
       dispatch(fetchTodolistsTC());
     }
-  }, [dispatch, demo, isAuthorized]);
+  }, [dispatch, isLoggedIn]);
 
-  if (!isAuthorized) {
+  if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
 
@@ -58,7 +55,3 @@ const Todolists = ({ demo }: TodoListsPropsType) => {
 };
 
 export default Todolists;
-
-type TodoListsPropsType = {
-  demo?: boolean;
-};

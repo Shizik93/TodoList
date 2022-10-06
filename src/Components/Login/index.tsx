@@ -16,7 +16,7 @@ import { loginTC } from '../../Reducers/authReducer';
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const isAuthorized = useAppSelector(state => state.app.isAuthorized);
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
 
   const formik = useFormik({
     initialValues: {
@@ -47,12 +47,23 @@ const Login = () => {
     },
   });
 
-  if (isAuthorized) {
+  if (isLoggedIn) {
     return <Navigate to="/" />;
   }
 
   return (
-    <Grid container justifyContent="center">
+    <Grid
+      style={{
+        marginRight: '0px',
+        marginTop: '25px',
+        borderRadius: '3px',
+        backgroundColor: 'white',
+        width: '350px',
+        height: '450px',
+      }}
+      container
+      justifyContent="center"
+    >
       <Grid item justifyContent="center">
         <form onSubmit={formik.handleSubmit}>
           <FormControl>
