@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/todolist/static/css/main.f271bbb2.css",
+    "main.js": "/todolist/static/js/main.0da6aef2.js",
+    "static/media/wallpaperflare.com_wallpaper.jpg": "/todolist/static/media/wallpaperflare.com_wallpaper.d0c8a5f8c096d92f0c8e.jpg",
+    "index.html": "/todolist/index.html",
+    "main.f271bbb2.css.map": "/todolist/static/css/main.f271bbb2.css.map",
+    "main.0da6aef2.js.map": "/todolist/static/js/main.0da6aef2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f271bbb2.css",
+    "static/js/main.0da6aef2.js"
+  ]
+}
