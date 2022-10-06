@@ -1,5 +1,5 @@
 import { instance } from './axios/axiosInstance';
-import { ResponseType } from './todoApi';
+import { ResponseType } from './types';
 
 export const authApi = {
   me: () => {

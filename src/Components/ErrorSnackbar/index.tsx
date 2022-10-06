@@ -1,4 +1,4 @@
-import { forwardRef, SyntheticEvent } from 'react';
+import { forwardRef, ReactElement, SyntheticEvent } from 'react';
 
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
@@ -10,7 +10,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) 
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export const ErrorSnackbar = () => {
+export const ErrorSnackbar = (): ReactElement => {
   const error = useAppSelector(state => state.app.error);
   const dispatch = useAppDispatch();
 

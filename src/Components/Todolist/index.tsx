@@ -1,34 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import { Delete } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 
-import { useAppDispatch, useAppSelector } from '../../../Hooks/hooks';
-import { RequestStatusType } from '../../../Reducers/appReducer';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
+import { RequestStatusType } from '../../Reducers/appReducer';
 import {
   addNewTaskTC,
   fetchTasksTC,
   removeTaskTC,
   updateTaskTC,
-} from '../../../Reducers/taskReducer';
+} from '../../Reducers/taskReducer';
 import {
-  changeTodolistFilterAC,
+  changeTodolistFilter,
   changeTodolistTitleTC,
   FilterValuesType,
   removeTodolistTC,
-} from '../../../Reducers/todolistReducer';
-import EditableSpan from '../../EditableSpan';
-import FullInput from '../../FullInput';
-import Task from '../../Task';
+} from '../../Reducers/todolistReducer';
+import EditableSpan from '../EditableSpan';
+import FullInput from '../FullInput';
+import Task from '../Task';
 
-type TodolistPropsType = {
-  entityStatus: RequestStatusType;
-  todolistId: string;
-  title: string;
-  filter: FilterValuesType;
-};
-
-const Todolist = ({ todolistId, title, filter, entityStatus }: TodolistPropsType) => {
+const Todolist = ({
+  todolistId,
+  title,
+  filter,
+  entityStatus,
+}: TodolistPropsType): ReactElement => {
   const tasks = useAppSelector(state => state.tasks);
 
   const dispatch = useAppDispatch();
@@ -52,12 +50,12 @@ const Todolist = ({ todolistId, title, filter, entityStatus }: TodolistPropsType
   };
 
   const changeFilter = (filter: FilterValuesType) => {
-    dispatch(changeTodolistFilterAC(todolistId, filter));
+    dispatch(changeTodolistFilter(todolistId, filter));
   };
 
   useEffect(() => {
     dispatch(fetchTasksTC(todolistId));
-  }, []);
+  }, [dispatch]);
 
   let tasksForTodolist = tasks[todolistId];
 
@@ -138,6 +136,13 @@ const Todolist = ({ todolistId, title, filter, entityStatus }: TodolistPropsType
   );
 };
 
-export const TaskStatuses = { Active: 0, Completed: 2 };
-
 export default Todolist;
+
+type TodolistPropsType = {
+  entityStatus: RequestStatusType;
+  todolistId: string;
+  title: string;
+  filter: FilterValuesType;
+};
+
+export const TaskStatuses = { Active: 0, Completed: 2 };

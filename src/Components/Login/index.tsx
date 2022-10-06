@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -14,7 +14,7 @@ import { Navigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { loginTC } from '../../Reducers/authReducer';
 
-const Login = () => {
+const Login = (): ReactElement => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
 

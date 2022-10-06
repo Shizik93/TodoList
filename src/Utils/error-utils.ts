@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
-import { ResponseType } from '../API/todoApi';
+import { ResponseType } from '../API/types';
 import { setError, setStatus } from '../Reducers/appReducer';
 import { AppRootStateType } from '../Store/store';
 

@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { TaskType } from '../Reducers/taskReducer';
 
 import { instance } from './axios/axiosInstance';
-import { ResponseType } from './todoApi';
+import { GetTasksResponse, ResponseType, UpdateTaskModelType } from './types';
 
 export const taskApi = {
   getTasks: (todolistId: string) => {
@@ -26,19 +26,4 @@ export const taskApi = {
       AxiosResponse<ResponseType<{ item: TaskType }>>
     >(`/todo-lists/${todolistId}/tasks/${taskId}`, model);
   },
-};
-
-export type UpdateTaskModelType = {
-  title: string;
-  description: string;
-  status: number;
-  priority: number;
-  startDate: string;
-  deadline: string;
-};
-
-type GetTasksResponse = {
-  error: string | null;
-  totalCount: number;
-  items: Array<TaskType>;
 };

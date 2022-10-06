@@ -8,11 +8,6 @@ const initialState = {
   isLoggedIn: false,
 };
 
-type InitialStateType = {
-  isLoggedIn: boolean;
-};
-export type authReducerActionsType = ReturnType<typeof setIsLoggedInAC>;
-
 export const authReducer = (
   // eslint-disable-next-line default-param-last
   state: InitialStateType = initialState,
@@ -25,9 +20,6 @@ export const authReducer = (
       return state;
   }
 };
-
-export const setIsLoggedInAC = (value: boolean) =>
-  ({ type: 'login/SET-IS-LOGGED-IN', value } as const);
 
 export const authMeTC = (): AppThunk => async dispatch => {
   dispatch(setStatus('loading'));
@@ -58,6 +50,7 @@ export const logoutTC = (): AppThunk => async dispatch => {
     handleServerNetworkError(err as Error, dispatch);
   }
 };
+
 export const loginTC =
   (email: string, password: string, rememberMe: boolean): AppThunk =>
   async dispatch => {
@@ -70,3 +63,12 @@ export const loginTC =
       handleServerNetworkError(err as Error, dispatch);
     }
   };
+
+export const setIsLoggedInAC = (value: boolean) =>
+  ({ type: 'login/SET-IS-LOGGED-IN', value } as const);
+
+type InitialStateType = {
+  isLoggedIn: boolean;
+};
+
+export type authReducerActionsType = ReturnType<typeof setIsLoggedInAC>;

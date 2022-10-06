@@ -1,15 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, ReactElement, useState } from 'react';
 
 import { Input } from '@mui/material';
 
-type EditableSpanPropsType = {
-  title: string;
-  callback: (title: string) => void;
-  disabled?: boolean;
-};
-
 const EditableSpan = React.memo(
-  ({ title, callback, disabled }: EditableSpanPropsType) => {
+  ({ title, callback, disabled }: EditableSpanPropsType): ReactElement => {
     const [edit, setEdit] = useState(false);
     const [newTitle, setNewTitle] = useState<string>(title);
 
@@ -48,3 +42,9 @@ const EditableSpan = React.memo(
 );
 
 export default EditableSpan;
+
+type EditableSpanPropsType = {
+  title: string;
+  callback: (title: string) => void;
+  disabled?: boolean;
+};

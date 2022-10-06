@@ -1,4 +1,5 @@
-import { taskApi, UpdateTaskModelType } from '../API/taskApi';
+import { taskApi } from '../API/taskApi';
+import { UpdateTaskModelType } from '../API/types';
 import { AppRootStateType, AppThunk } from '../Store/store';
 import { handleServerAppError, handleServerNetworkError } from '../Utils/error-utils';
 
@@ -52,13 +53,7 @@ export const taskReducer = (
       return state;
   }
 };
-export const setTasks = (payload: Array<TaskType>, todolistId: string) => {
-  return {
-    type: 'TASK/SET-TASKS',
-    payload,
-    todolistId,
-  } as const;
-};
+
 export const fetchTasksTC =
   (todolistId: string): AppThunk =>
   async dispatch => {
@@ -72,7 +67,7 @@ export const fetchTasksTC =
       handleServerNetworkError(err as Error, dispatch);
     }
   };
-export const addNewTask = (task: TaskType) => ({ type: 'TASK/ADD-TASK', task } as const);
+
 export const addNewTaskTC =
   (todolistId: string, title: string): AppThunk =>
   async dispatch => {
@@ -91,21 +86,6 @@ export const addNewTaskTC =
     }
   };
 
-export const ChangeTaskStatus = (status: boolean, id: string) => {
-  return {
-    type: 'CHANGE-TASK-STATUS',
-    id,
-    status,
-  } as const;
-};
-
-export const removeTask = (id: string, todolistId: string) => {
-  return {
-    type: 'TASK/REMOVE-TASK',
-    id,
-    todolistId,
-  } as const;
-};
 export const removeTaskTC =
   (todolistId: string, id: string): AppThunk =>
   async dispatch => {
@@ -118,13 +98,6 @@ export const removeTaskTC =
       handleServerNetworkError(err as Error, dispatch);
     }
   };
-
-export const updateTask = (task: TaskType) => {
-  return {
-    type: 'TASK/UPDATE-TASK',
-    task,
-  } as const;
-};
 
 export const updateTaskTC =
   (domainModel: UpdateDomainTaskModelType, id: string, todolistID: string): AppThunk =>
@@ -164,8 +137,40 @@ export const updateTaskTC =
     }
   };
 
+export const setTasks = (payload: Array<TaskType>, todolistId: string) => {
+  return {
+    type: 'TASK/SET-TASKS',
+    payload,
+    todolistId,
+  } as const;
+};
+export const addNewTask = (task: TaskType) => ({ type: 'TASK/ADD-TASK', task } as const);
+
+export const removeTask = (id: string, todolistId: string) => {
+  return {
+    type: 'TASK/REMOVE-TASK',
+    id,
+    todolistId,
+  } as const;
+};
+
+export const updateTask = (task: TaskType) => {
+  return {
+    type: 'TASK/UPDATE-TASK',
+    task,
+  } as const;
+};
+
+export const changeTaskStatus = (status: boolean, id: string) => {
+  return {
+    type: 'CHANGE-TASK-STATUS',
+    id,
+    status,
+  } as const;
+};
+
 export type taskReducerActionsType =
-  | ReturnType<typeof ChangeTaskStatus>
+  | ReturnType<typeof changeTaskStatus>
   | ReturnType<typeof addNewTask>
   | ReturnType<typeof removeTask>
   | ReturnType<typeof updateTask>
@@ -181,6 +186,7 @@ export type UpdateDomainTaskModelType = {
   startDate?: string;
   deadline?: string;
 };
+
 export type TaskType = {
   description: string;
   title: string;
@@ -194,6 +200,7 @@ export type TaskType = {
   order: number;
   addedDate: string;
 };
+
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
 };

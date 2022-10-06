@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import { Grid, Paper } from '@mui/material';
 import { Navigate } from 'react-router-dom';
@@ -6,10 +6,9 @@ import { Navigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { createNewTodolistTC, fetchTodolistsTC } from '../../Reducers/todolistReducer';
 import FullInput from '../FullInput';
+import Todolist from '../Todolist';
 
-import Todolist from './Todolist';
-
-const Todolists = () => {
+const Todolists = (): ReactElement => {
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
   const todolists = useAppSelector(state => state.todolists);
   const dispatch = useAppDispatch();

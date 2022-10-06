@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { TodolistType } from '../Reducers/todolistReducer';
 
 import { instance } from './axios/axiosInstance';
+import { ResponseType } from './types';
 
 export const todoApi = {
   fetchTodolists: () => {
@@ -23,11 +24,4 @@ export const todoApi = {
   deleteTodolist: (id: string) => {
     return instance.delete<{ title: string }, ResponseType>(`/todo-lists/${id}`);
   },
-};
-
-export type ResponseType<D = {}> = {
-  resultCode: number;
-  messages: Array<string>;
-  fieldsErrors: Array<string>;
-  data: D;
 };

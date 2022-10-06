@@ -1,15 +1,10 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, ReactElement, useState } from 'react';
 
 import { Button, TextField } from '@mui/material';
 
 import { RequestStatusType } from '../../Reducers/appReducer';
 
-type FullInputPropsType = {
-  callback: (title: string) => void;
-  disabled?: RequestStatusType;
-};
-
-const FullInput = React.memo((props: FullInputPropsType) => {
+const FullInput = React.memo((props: FullInputPropsType): ReactElement => {
   const [title, setTitle] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
 
@@ -43,7 +38,6 @@ const FullInput = React.memo((props: FullInputPropsType) => {
         error={error}
         disabled={props.disabled === 'loading'}
         onChange={onChangeSetTitle}
-        onKeyPress={onKeyPressOnClickAddTask}
       />
       <Button
         variant="contained"
@@ -67,3 +61,8 @@ const FullInput = React.memo((props: FullInputPropsType) => {
 });
 
 export default FullInput;
+
+type FullInputPropsType = {
+  callback: (title: string) => void;
+  disabled?: RequestStatusType;
+};

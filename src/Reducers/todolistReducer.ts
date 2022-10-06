@@ -35,13 +35,6 @@ export const todolistReducer = (
   }
 };
 
-export const setTodolists = (payload: Array<TodolistType>) => {
-  return {
-    type: 'TODO/SET-TODO-LISTS',
-    payload,
-  } as const;
-};
-
 export const fetchTodolistsTC = (): AppThunk => async dispatch => {
   dispatch(setStatus('loading'));
   try {
@@ -52,33 +45,6 @@ export const fetchTodolistsTC = (): AppThunk => async dispatch => {
   } catch (err) {
     handleServerNetworkError(err as Error, dispatch);
   }
-};
-export const createNewTodolist = (payload: TodolistType) => {
-  return {
-    type: 'TODO/CREATE-NEW-TODO-LIST',
-    payload,
-  } as const;
-};
-
-export const createNewTodolistTC =
-  (title: string): AppThunk =>
-  async dispatch => {
-    dispatch(setStatus('loading'));
-    try {
-      const todolist = await todoApi.createNewTodolist(title);
-
-      dispatch(createNewTodolist(todolist.data.data.item));
-      dispatch(setStatus('succeeded'));
-    } catch (err) {
-      handleServerNetworkError(err as Error, dispatch);
-    }
-  };
-
-export const removeTodolist = (id: string) => {
-  return {
-    type: 'TODO/REMOVE-TODO-LIST',
-    id,
-  } as const;
 };
 
 export const removeTodolistTC =
@@ -94,13 +60,20 @@ export const removeTodolistTC =
     }
   };
 
-export const chaneTodolistTitle = (id: string, title: string) => {
-  return {
-    type: 'TODO/CHANGE-TODO-LIST-TITLE',
-    id,
-    title,
-  } as const;
-};
+export const createNewTodolistTC =
+  (title: string): AppThunk =>
+  async dispatch => {
+    dispatch(setStatus('loading'));
+    try {
+      const todolist = await todoApi.createNewTodolist(title);
+
+      dispatch(createNewTodolist(todolist.data.data.item));
+      dispatch(setStatus('succeeded'));
+    } catch (err) {
+      handleServerNetworkError(err as Error, dispatch);
+    }
+  };
+
 export const changeTodolistTitleTC =
   (id: string, title: string): AppThunk =>
   async dispatch => {
@@ -114,7 +87,36 @@ export const changeTodolistTitleTC =
     }
   };
 
-export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) =>
+export const setTodolists = (payload: Array<TodolistType>) => {
+  return {
+    type: 'TODO/SET-TODO-LISTS',
+    payload,
+  } as const;
+};
+
+export const removeTodolist = (id: string) => {
+  return {
+    type: 'TODO/REMOVE-TODO-LIST',
+    id,
+  } as const;
+};
+
+export const createNewTodolist = (payload: TodolistType) => {
+  return {
+    type: 'TODO/CREATE-NEW-TODO-LIST',
+    payload,
+  } as const;
+};
+
+export const chaneTodolistTitle = (id: string, title: string) => {
+  return {
+    type: 'TODO/CHANGE-TODO-LIST-TITLE',
+    id,
+    title,
+  } as const;
+};
+
+export const changeTodolistFilter = (id: string, filter: FilterValuesType) =>
   ({
     type: 'TODO/CHANGE-TODOLIST-FILTER',
     id,
@@ -132,7 +134,7 @@ export type todolistActionsType =
   | ReturnType<typeof createNewTodolist>
   | ReturnType<typeof removeTodolist>
   | ReturnType<typeof chaneTodolistTitle>
-  | ReturnType<typeof changeTodolistFilterAC>;
+  | ReturnType<typeof changeTodolistFilter>;
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType;

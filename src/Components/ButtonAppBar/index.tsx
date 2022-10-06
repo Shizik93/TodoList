@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import { LinearProgress } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -10,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { logoutTC } from '../../Reducers/authReducer';
 
-const ButtonAppBar = () => {
+const ButtonAppBar = (): ReactElement => {
   const status = useAppSelector(state => state.app.status);
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
 

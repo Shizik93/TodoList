@@ -1,21 +1,11 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, ReactElement } from 'react';
 
 import { Delete } from '@mui/icons-material';
 import { Checkbox, IconButton } from '@mui/material';
 
 import { RequestStatusType } from '../../Reducers/appReducer';
 import EditableSpan from '../EditableSpan';
-import { TaskStatuses } from '../Todolists/Todolist';
-
-type TaskPropsType = {
-  id: string;
-  title: string;
-  status: number;
-  removeTask: (id: string) => void;
-  updateTask: (id: string, title: string) => void;
-  changeTaskStatus: (id: string, value: number) => void;
-  entityStatus: RequestStatusType;
-};
+import { TaskStatuses } from '../Todolist';
 
 const Task = ({
   id,
@@ -25,7 +15,7 @@ const Task = ({
   updateTask,
   entityStatus,
   changeTaskStatus,
-}: TaskPropsType) => {
+}: TaskPropsType): ReactElement => {
   const removeTaskHandler = () => {
     removeTask(id);
   };
@@ -66,3 +56,13 @@ const Task = ({
 };
 
 export default Task;
+
+type TaskPropsType = {
+  id: string;
+  title: string;
+  status: number;
+  removeTask: (id: string) => void;
+  updateTask: (id: string, title: string) => void;
+  changeTaskStatus: (id: string, value: number) => void;
+  entityStatus: RequestStatusType;
+};

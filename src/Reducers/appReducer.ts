@@ -1,20 +1,9 @@
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
-type initialStateType = {
-  status: RequestStatusType;
-  error: string | null;
-  isInitialized: boolean;
-};
-
 const initialState: initialStateType = {
   status: 'idle',
   error: null,
   isInitialized: false,
 };
 
-export type appReducerActionsType =
-  | ReturnType<typeof setStatus>
-  | ReturnType<typeof setError>
-  | ReturnType<typeof setAuthorized>;
 export const appReducer = (
   // eslint-disable-next-line default-param-last
   state: initialStateType = initialState,
@@ -53,3 +42,16 @@ export const setAuthorized = (isInitialized: boolean) => {
     isInitialized,
   } as const;
 };
+
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
+
+type initialStateType = {
+  status: RequestStatusType;
+  error: string | null;
+  isInitialized: boolean;
+};
+
+export type appReducerActionsType =
+  | ReturnType<typeof setStatus>
+  | ReturnType<typeof setError>
+  | ReturnType<typeof setAuthorized>;
