@@ -34,7 +34,7 @@ export const todolistReducer = (
   }
 };
 
-export const setTodolists = (payload: Array<todolistType>) => {
+export const setTodolists = (payload: Array<TodolistType>) => {
   return {
     type: 'TODO/SET-TODO-LISTS',
     payload,
@@ -46,14 +46,14 @@ export const fetchTodolistsTC = (): AppThunk => async dispatch => {
   try {
     const todolists = await todoApi.fetchTodolists();
 
-    dispatch(setTodolists(todolists));
+    dispatch(setTodolists(todolists.data));
     dispatch(setStatus('succeeded'));
   } catch (err) {
     dispatch(setError(err));
     dispatch(setStatus('failed'));
   }
 };
-export const createNewTodolist = (payload: todolistType) => {
+export const createNewTodolist = (payload: TodolistType) => {
   return {
     type: 'TODO/CREATE-NEW-TODO-LIST',
     payload,
@@ -67,7 +67,7 @@ export const createNewTodolistTC =
     try {
       const todolist = await todoApi.createNewTodolist(title);
 
-      dispatch(createNewTodolist(todolist.data.item));
+      dispatch(createNewTodolist(todolist.data.data.item));
       dispatch(setStatus('succeeded'));
     } catch (err) {
       dispatch(setError(err));
@@ -124,7 +124,7 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) =>
     filter,
   } as const);
 
-export type todolistType = {
+export type TodolistType = {
   addedDate: string;
   id: string;
   order: number;
@@ -137,7 +137,7 @@ export type todolistActionsType =
   | ReturnType<typeof chaneTodolistTitle>
   | ReturnType<typeof changeTodolistFilterAC>;
 export type FilterValuesType = 'all' | 'active' | 'completed';
-export type TodolistDomainType = todolistType & {
+export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType;
   entityStatus: RequestStatusType;
 };

@@ -4,32 +4,7 @@ import { AppRootStateType, AppThunk } from '../Store/store';
 import { setError, setStatus } from './appReducer';
 import { createNewTodolist, setTodolists } from './todolistReducer';
 
-export type TaskType = {
-  description: string;
-  title: string;
-  completed: boolean;
-  status: number;
-  priority: number;
-  startDate: string;
-  deadline: string;
-  id: string;
-  todoListId: string;
-  order: number;
-  addedDate: string;
-};
-export type TasksStateType = {
-  [key: string]: Array<TaskType>;
-};
 const initialState: TasksStateType = {};
-
-export type taskReducerActionsType =
-  | ReturnType<typeof ChangeTaskStatus>
-  | ReturnType<typeof addNewTask>
-  | ReturnType<typeof removeTask>
-  | ReturnType<typeof updateTask>
-  | ReturnType<typeof setTasks>
-  | ReturnType<typeof createNewTodolist>
-  | ReturnType<typeof setTodolists>;
 
 export const taskReducer = (
   // eslint-disable-next-line default-param-last
@@ -90,7 +65,7 @@ export const fetchTasksTC =
     try {
       const tasks = await taskApi.getTasks(todolistId);
 
-      dispatch(setTasks(tasks.items, todolistId));
+      dispatch(setTasks(tasks.data.items, todolistId));
       dispatch(setStatus('succeeded'));
     } catch (err) {
       dispatch(setError(err));
@@ -105,7 +80,7 @@ export const addNewTaskTC =
     try {
       const task = await taskApi.createTask(todolistId, title);
 
-      dispatch(addNewTask(task.data.item));
+      dispatch(addNewTask(task.data.data.item));
       dispatch(setStatus('succeeded'));
     } catch (err) {
       dispatch(setError(err));
@@ -176,13 +151,22 @@ export const updateTaskTC =
     try {
       const updateTasks = await taskApi.updateTask(todolistID, id, apiModel);
 
-      dispatch(updateTask(updateTasks.data.item));
+      dispatch(updateTask(updateTasks.data.data.item));
       dispatch(setStatus('succeeded'));
     } catch (err) {
       dispatch(setError(err));
       dispatch(setStatus('failed'));
     }
   };
+
+export type taskReducerActionsType =
+  | ReturnType<typeof ChangeTaskStatus>
+  | ReturnType<typeof addNewTask>
+  | ReturnType<typeof removeTask>
+  | ReturnType<typeof updateTask>
+  | ReturnType<typeof setTasks>
+  | ReturnType<typeof createNewTodolist>
+  | ReturnType<typeof setTodolists>;
 
 export type UpdateDomainTaskModelType = {
   title?: string;
@@ -191,4 +175,20 @@ export type UpdateDomainTaskModelType = {
   priority?: number;
   startDate?: string;
   deadline?: string;
+};
+export type TaskType = {
+  description: string;
+  title: string;
+  completed: boolean;
+  status: number;
+  priority: number;
+  startDate: string;
+  deadline: string;
+  id: string;
+  todoListId: string;
+  order: number;
+  addedDate: string;
+};
+export type TasksStateType = {
+  [key: string]: Array<TaskType>;
 };

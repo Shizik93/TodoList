@@ -33,13 +33,13 @@ export const authMeTC = (): AppThunk => async dispatch => {
   try {
     const response = await authApi.me();
 
-    if (response.resultCode === 0) {
+    if (response.data.resultCode === 0) {
       dispatch(setAuthorized(true));
       dispatch(setIsLoggedInAC(true));
       dispatch(setStatus('succeeded'));
     } else {
       dispatch(setAuthorized(true));
-      dispatch(setError(response.messages[0]));
+      dispatch(setError(response.data.messages[0]));
       dispatch(setStatus('failed'));
     }
   } catch (err) {

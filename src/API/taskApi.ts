@@ -1,21 +1,30 @@
+import { AxiosResponse } from 'axios';
+
+import { TaskType } from '../Reducers/taskReducer';
+
 import { instance } from './axios/axiosInstance';
+import { ResponseType } from './todoApi';
 
 export const taskApi = {
   getTasks: (todolistId: string) => {
-    return instance.get(`/todo-lists/${todolistId}/tasks`).then(res => res.data);
+    return instance.get<GetTasksResponse>(`/todo-lists/${todolistId}/tasks`);
   },
   createTask: (todolistId: string, title: string) => {
-    return instance
-      .post(`/todo-lists/${todolistId}/tasks`, { title })
-      .then(res => res.data);
+    return instance.post<
+      { title: string },
+      AxiosResponse<ResponseType<{ item: TaskType }>>
+    >(`/todo-lists/${todolistId}/tasks`, { title });
   },
   deleteTask: (todolistId: string, taskId: string) => {
-    return instance.delete(`/todo-lists/${todolistId}/tasks/${taskId}`);
+    return instance.delete<{ title: string }, ResponseType>(
+      `/todo-lists/${todolistId}/tasks/${taskId}`,
+    );
   },
   updateTask: (todolistId: string, taskId: string, model: UpdateTaskModelType) => {
-    return instance
-      .put(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
-      .then(res => res.data);
+    return instance.put<
+      UpdateTaskModelType,
+      AxiosResponse<ResponseType<{ item: TaskType }>>
+    >(`/todo-lists/${todolistId}/tasks/${taskId}`, model);
   },
 };
 
@@ -26,4 +35,10 @@ export type UpdateTaskModelType = {
   priority: number;
   startDate: string;
   deadline: string;
+};
+
+type GetTasksResponse = {
+  error: string | null;
+  totalCount: number;
+  items: Array<TaskType>;
 };
