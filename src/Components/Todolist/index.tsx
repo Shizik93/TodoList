@@ -4,7 +4,6 @@ import { Delete } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { RequestStatusType } from '../../Reducers/appReducer';
 import {
   addNewTaskTC,
   fetchTasksTC,
@@ -17,6 +16,7 @@ import {
   FilterValuesType,
   removeTodolistTC,
 } from '../../Reducers/todolistReducer';
+import { RequestStatus } from '../../toolkitRedux/appSlice';
 import EditableSpan from '../EditableSpan';
 import FullInput from '../FullInput';
 import Task from '../Task';
@@ -139,7 +139,7 @@ const Todolist = ({
 export default Todolist;
 
 type TodolistPropsType = {
-  entityStatus: RequestStatusType;
+  entityStatus: RequestStatus;
   todolistId: string;
   title: string;
   filter: FilterValuesType;

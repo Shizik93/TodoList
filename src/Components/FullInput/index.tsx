@@ -2,7 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, ReactElement, useState } from 'react
 
 import { Button, TextField } from '@mui/material';
 
-import { RequestStatusType } from '../../Reducers/appReducer';
+import { RequestStatus } from '../../toolkitRedux/appSlice';
 
 const FullInput = React.memo((props: FullInputPropsType): ReactElement => {
   const [title, setTitle] = useState<string>('');
@@ -64,5 +64,5 @@ export default FullInput;
 
 type FullInputPropsType = {
   callback: (title: string) => void;
-  disabled?: RequestStatusType;
+  disabled?: RequestStatus;
 };

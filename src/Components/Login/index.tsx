@@ -12,7 +12,7 @@ import { useFormik } from 'formik';
 import { Navigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { loginTC } from '../../Reducers/authReducer';
+import { loginTC } from '../../toolkitRedux/ActionCreators/authActionCreators';
 
 const Login = (): ReactElement => {
   const dispatch = useAppDispatch();

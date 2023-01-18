@@ -9,7 +9,7 @@ import { ErrorSnackbar } from './Components/ErrorSnackbar';
 import Login from './Components/Login';
 import Todolists from './Components/Todolists';
 import { useAppDispatch, useAppSelector } from './Hooks/hooks';
-import { authMeTC } from './Reducers/authReducer';
+import { authMeTC } from './toolkitRedux/ActionCreators/authActionCreators';
 
 const App = (): ReactElement => {
   const dispatch = useAppDispatch();

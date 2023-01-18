@@ -3,7 +3,7 @@ import React, { ChangeEvent, ReactElement } from 'react';
 import { Delete } from '@mui/icons-material';
 import { Checkbox, IconButton } from '@mui/material';
 
-import { RequestStatusType } from '../../Reducers/appReducer';
+import { RequestStatus } from '../../toolkitRedux/appSlice';
 import EditableSpan from '../EditableSpan';
 import { TaskStatuses } from '../Todolist';
 
@@ -64,5 +64,5 @@ type TaskPropsType = {
   removeTask: (id: string) => void;
   updateTask: (id: string, title: string) => void;
   changeTaskStatus: (id: string, value: number) => void;
-  entityStatus: RequestStatusType;
+  entityStatus: RequestStatus;
 };

@@ -1,9 +1,9 @@
 import { taskApi } from '../API/taskApi';
 import { UpdateTaskModelType } from '../API/types';
 import { AppRootStateType, AppThunk } from '../Store/store';
+import { setStatusRTK } from '../toolkitRedux/appSlice';
 import { handleServerAppError, handleServerNetworkError } from '../Utils/error-utils';
 
-import { setStatus } from './appReducer';
 import { createNewTodolist, setTodolists } from './todolistReducer';
 
 const initialState: TasksStateType = {};
@@ -57,12 +57,12 @@ export const taskReducer = (
 export const fetchTasksTC =
   (todolistId: string): AppThunk =>
   async dispatch => {
-    dispatch(setStatus('loading'));
+    dispatch(setStatusRTK('loading'));
     try {
       const tasks = await taskApi.getTasks(todolistId);
 
       dispatch(setTasks(tasks.data.items, todolistId));
-      dispatch(setStatus('succeeded'));
+      dispatch(setStatusRTK('succeeded'));
     } catch (err) {
       handleServerNetworkError(err as Error, dispatch);
     }
@@ -71,13 +71,13 @@ export const fetchTasksTC =
 export const addNewTaskTC =
   (todolistId: string, title: string): AppThunk =>
   async dispatch => {
-    dispatch(setStatus('loading'));
+    dispatch(setStatusRTK('loading'));
     try {
       const task = await taskApi.createTask(todolistId, title);
 
       if (task.data.resultCode === 0) {
         dispatch(addNewTask(task.data.data.item));
-        dispatch(setStatus('succeeded'));
+        dispatch(setStatusRTK('succeeded'));
       } else {
         handleServerAppError(task.data, dispatch);
       }
@@ -89,11 +89,11 @@ export const addNewTaskTC =
 export const removeTaskTC =
   (todolistId: string, id: string): AppThunk =>
   async dispatch => {
-    dispatch(setStatus('loading'));
+    dispatch(setStatusRTK('loading'));
     try {
       await taskApi.deleteTask(todolistId, id);
       dispatch(removeTask(id, todolistId));
-      dispatch(setStatus('succeeded'));
+      dispatch(setStatusRTK('succeeded'));
     } catch (err) {
       handleServerNetworkError(err as Error, dispatch);
     }
@@ -122,13 +122,13 @@ export const updateTaskTC =
       ...domainModel,
     };
 
-    dispatch(setStatus('loading'));
+    dispatch(setStatusRTK('loading'));
     try {
       const updateTasks = await taskApi.updateTask(todolistID, id, apiModel);
 
       if (updateTasks.data.resultCode === 0) {
         dispatch(updateTask(updateTasks.data.data.item));
-        dispatch(setStatus('succeeded'));
+        dispatch(setStatusRTK('succeeded'));
       } else {
         handleServerAppError(updateTasks.data, dispatch);
       }

@@ -4,7 +4,7 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { setError } from '../../Reducers/appReducer';
+import { setErrorRTK } from '../../toolkitRedux/appSlice';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -18,7 +18,7 @@ export const ErrorSnackbar = (): ReactElement => {
     if (reason === 'clickaway') {
       return;
     }
-    dispatch(setError(null));
+    dispatch(setErrorRTK(null));
   };
 
   return (

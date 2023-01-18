@@ -2,25 +2,25 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import { ResponseType } from '../API/types';
-import { setError, setStatus } from '../Reducers/appReducer';
 import { AppRootStateType } from '../Store/store';
+import { setErrorRTK, setStatusRTK } from '../toolkitRedux/appSlice';
 
 export const handleServerAppError = <T>(
   data: ResponseType<T>,
   dispatch: ThunkDispatch<AppRootStateType, unknown, AnyAction>,
 ) => {
   if (data.messages.length) {
-    dispatch(setError(data.messages[0]));
+    dispatch(setErrorRTK(data.messages[0]));
   } else {
-    dispatch(setError('Some error occurred'));
+    dispatch(setErrorRTK('Some error occurred'));
   }
-  dispatch(setStatus('failed'));
+  dispatch(setStatusRTK('failed'));
 };
 
 export const handleServerNetworkError = (
   error: { message: string },
   dispatch: ThunkDispatch<AppRootStateType, unknown, AnyAction>,
 ) => {
-  dispatch(setError(error.message ? error.message : 'Some error occurred'));
-  dispatch(setStatus('failed'));
+  dispatch(setErrorRTK(error.message ? error.message : 'Some error occurred'));
+  dispatch(setStatusRTK('failed'));
 };

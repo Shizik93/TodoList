@@ -1,8 +1,7 @@
 import { todoApi } from '../API/todoApi';
 import { AppThunk } from '../Store/store';
+import { RequestStatus, setStatusRTK } from '../toolkitRedux/appSlice';
 import { handleServerNetworkError } from '../Utils/error-utils';
-
-import { RequestStatusType, setStatus } from './appReducer';
 
 const initialState: Array<TodolistDomainType> = [];
 
@@ -36,12 +35,12 @@ export const todolistReducer = (
 };
 
 export const fetchTodolistsTC = (): AppThunk => async dispatch => {
-  dispatch(setStatus('loading'));
+  dispatch(setStatusRTK('loading'));
   try {
     const todolists = await todoApi.fetchTodolists();
 
     dispatch(setTodolists(todolists.data));
-    dispatch(setStatus('succeeded'));
+    dispatch(setStatusRTK('succeeded'));
   } catch (err) {
     handleServerNetworkError(err as Error, dispatch);
   }
@@ -50,11 +49,11 @@ export const fetchTodolistsTC = (): AppThunk => async dispatch => {
 export const removeTodolistTC =
   (id: string): AppThunk =>
   async dispatch => {
-    dispatch(setStatus('loading'));
+    dispatch(setStatusRTK('loading'));
     try {
       await todoApi.deleteTodolist(id);
       dispatch(removeTodolist(id));
-      dispatch(setStatus('succeeded'));
+      dispatch(setStatusRTK('succeeded'));
     } catch (err) {
       handleServerNetworkError(err as Error, dispatch);
     }
@@ -63,12 +62,12 @@ export const removeTodolistTC =
 export const createNewTodolistTC =
   (title: string): AppThunk =>
   async dispatch => {
-    dispatch(setStatus('loading'));
+    dispatch(setStatusRTK('loading'));
     try {
       const todolist = await todoApi.createNewTodolist(title);
 
       dispatch(createNewTodolist(todolist.data.data.item));
-      dispatch(setStatus('succeeded'));
+      dispatch(setStatusRTK('succeeded'));
     } catch (err) {
       handleServerNetworkError(err as Error, dispatch);
     }
@@ -77,11 +76,11 @@ export const createNewTodolistTC =
 export const changeTodolistTitleTC =
   (id: string, title: string): AppThunk =>
   async dispatch => {
-    dispatch(setStatus('loading'));
+    dispatch(setStatusRTK('loading'));
     try {
       await todoApi.updateTodolist(title, id);
       dispatch(chaneTodolistTitle(id, title));
-      dispatch(setStatus('succeeded'));
+      dispatch(setStatusRTK('succeeded'));
     } catch (err) {
       handleServerNetworkError(err as Error, dispatch);
     }
@@ -138,5 +137,5 @@ export type todolistActionsType =
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType;
-  entityStatus: RequestStatusType;
+  entityStatus: RequestStatus;
 };

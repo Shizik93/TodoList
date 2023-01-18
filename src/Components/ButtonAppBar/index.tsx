@@ -10,7 +10,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { logoutTC } from '../../Reducers/authReducer';
+import { logoutTC } from '../../toolkitRedux/ActionCreators/authActionCreators';
 
 const ButtonAppBar = (): ReactElement => {
   const status = useAppSelector(state => state.app.status);
