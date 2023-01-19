@@ -3,19 +3,19 @@ import { ReactElement, useEffect } from 'react';
 import { Delete } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 
-import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
   addNewTaskTC,
   fetchTasksTC,
   removeTaskTC,
   updateTaskTC,
-} from '../../toolkitRedux/ActionCreators/taskActionCreators';
+} from '../../store/actionCreators/taskActionCreators';
 import {
   changeTodolistTitleTC,
   removeTodolistTC,
-} from '../../toolkitRedux/ActionCreators/todolistActionCreators';
-import { RequestStatus } from '../../toolkitRedux/appSlice';
-import { changeTodolistFilter, FilterValuesType } from '../../toolkitRedux/todolistSlice';
+} from '../../store/actionCreators/todolistActionCreators';
+import { RequestStatus } from '../../store/slices/appSlice';
+import { changeTodolistFilter, FilterValuesType } from '../../store/slices/todolistSlice';
 import EditableSpan from '../EditableSpan';
 import FullInput from '../FullInput';
 import Task from '../Task';

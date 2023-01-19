@@ -1,7 +1,7 @@
 import { authApi } from '../../API/authApi';
-import { handleServerNetworkError } from '../../Utils/error-utils';
-import { setAuthorizedRTK, setErrorRTK, setStatusRTK } from '../appSlice';
-import { setIsLogged } from '../authSlice';
+import { handleServerNetworkError } from '../../utils/error-utils';
+import { setAuthorizedRTK, setErrorRTK, setStatusRTK } from '../slices/appSlice';
+import { setIsLogged } from '../slices/authSlice';
 import { AppThunk } from '../store';
 
 export const authMeTC = (): AppThunk => async dispatch => {

@@ -1,13 +1,13 @@
 import { todoApi } from '../../API/todoApi';
-import { handleServerNetworkError } from '../../Utils/error-utils';
-import { setStatusRTK } from '../appSlice';
-import { AppThunk } from '../store';
+import { handleServerNetworkError } from '../../utils/error-utils';
+import { setStatusRTK } from '../slices/appSlice';
 import {
   changeTodolistTitle,
   createNewTodolist,
   removeTodolist,
   setTodolists,
-} from '../todolistSlice';
+} from '../slices/todolistSlice';
+import { AppThunk } from '../store';
 
 export const fetchTodolistsTC = (): AppThunk => async dispatch => {
   dispatch(setStatusRTK('loading'));

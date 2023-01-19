@@ -3,11 +3,11 @@ import React, { ReactElement, useEffect } from 'react';
 import { Grid, Paper } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
   createNewTodolistTC,
   fetchTodolistsTC,
-} from '../../toolkitRedux/ActionCreators/todolistActionCreators';
+} from '../../store/actionCreators/todolistActionCreators';
 import FullInput from '../FullInput';
 import Todolist from '../TodolistItem';
 

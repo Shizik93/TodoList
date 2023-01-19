@@ -3,7 +3,7 @@ import React, { ChangeEvent, ReactElement } from 'react';
 import { Delete } from '@mui/icons-material';
 import { Checkbox, IconButton } from '@mui/material';
 
-import { RequestStatus } from '../../toolkitRedux/appSlice';
+import { RequestStatus } from '../../store/slices/appSlice';
 import EditableSpan from '../EditableSpan';
 import { TaskStatuses } from '../TodolistItem';
 

@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import { TodolistType } from '../toolkitRedux/todolistSlice';
+import { TodolistType } from '../store/slices/todolistSlice';
 
 import { instance } from './axios/axiosInstance';
 import { ResponseType } from './types';

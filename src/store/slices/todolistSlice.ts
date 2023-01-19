@@ -12,23 +12,25 @@ export const todolistSlice = createSlice({
       return action.payload.map(tl => ({ ...tl, filter: 'all', entityStatus: 'idle' }));
     },
     removeTodolist(state, action: PayloadAction<string>) {
-      state = state.filter(tl => tl.id !== action.payload);
+      const index = state.findIndex(todo => todo.id === action.payload);
+
+      state.splice(index, 1);
     },
     createNewTodolist(state, action: PayloadAction<TodolistType>) {
       state.unshift({ ...action.payload, filter: 'all', entityStatus: 'idle' });
     },
     changeTodolistTitle(state, action: PayloadAction<{ id: string; title: string }>) {
-      state = state.map(tl =>
-        tl.id === action.payload.id ? { ...tl, title: action.payload.title } : tl,
-      );
+      const index = state.findIndex(todo => todo.id === action.payload.id);
+
+      state[index].title = action.payload.title;
     },
     changeTodolistFilter(
       state,
       action: PayloadAction<{ id: string; filter: FilterValuesType }>,
     ) {
-      state = state.map(tl =>
-        tl.id === action.payload.id ? { ...tl, filter: action.payload.filter } : tl,
-      );
+      const index = state.findIndex(todo => todo.id === action.payload.id);
+
+      state[index].filter = action.payload.filter;
     },
   },
 });

@@ -2,8 +2,8 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import { ResponseType } from '../API/types';
-import { setErrorRTK, setStatusRTK } from '../toolkitRedux/appSlice';
-import { AppRootStateType } from '../toolkitRedux/store';
+import { setErrorRTK, setStatusRTK } from '../store/slices/appSlice';
+import { AppRootStateType } from '../store/store';
 
 export const handleServerAppError = <T>(
   data: ResponseType<T>,

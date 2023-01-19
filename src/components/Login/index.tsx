@@ -11,8 +11,8 @@ import TextField from '@mui/material/TextField';
 import { useFormik } from 'formik';
 import { Navigate } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { loginTC } from '../../toolkitRedux/ActionCreators/authActionCreators';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { loginTC } from '../../store/actionCreators/authActionCreators';
 
 const Login = (): ReactElement => {
   const dispatch = useAppDispatch();

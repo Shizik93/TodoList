@@ -1,4 +1,4 @@
-import { TaskType } from '../toolkitRedux/taskSlice';
+import { TaskType } from '../store/slices/taskSlice';
 
 export type ResponseType<D = {}> = {
   resultCode: number;

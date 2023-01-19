@@ -2,10 +2,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
-import { appSlice } from './appSlice';
-import authSlice from './authSlice';
-import { taskSlice } from './taskSlice';
-import { todolistSlice } from './todolistSlice';
+import { appSlice } from './slices/appSlice';
+import authSlice from './slices/authSlice';
+import { taskSlice } from './slices/taskSlice';
+import { todolistSlice } from './slices/todolistSlice';
 
 const rootReducerRTK = combineReducers({
   todolists: todolistSlice.reducer,

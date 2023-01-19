@@ -4,12 +4,12 @@ import './App.css';
 import { CircularProgress, Container } from '@mui/material';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import ButtonAppBar from './Components/ButtonAppBar';
-import { ErrorSnackbar } from './Components/ErrorSnackbar';
-import Login from './Components/Login';
-import Todolists from './Components/Todolists';
-import { useAppDispatch, useAppSelector } from './Hooks/hooks';
-import { authMeTC } from './toolkitRedux/ActionCreators/authActionCreators';
+import ButtonAppBar from './components/ButtonAppBar';
+import { ErrorSnackbar } from './components/ErrorSnackbar';
+import Login from './components/Login';
+import Todolists from './components/Todolists';
+import { useAppDispatch, useAppSelector } from './hooks/hooks';
+import { authMeTC } from './store/actionCreators/authActionCreators';
 
 const App = (): ReactElement => {
   const dispatch = useAppDispatch();

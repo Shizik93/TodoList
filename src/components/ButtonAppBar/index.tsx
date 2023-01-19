@@ -9,8 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { logoutTC } from '../../toolkitRedux/ActionCreators/authActionCreators';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { logoutTC } from '../../store/actionCreators/authActionCreators';
 
 const ButtonAppBar = (): ReactElement => {
   const status = useAppSelector(state => state.app.status);

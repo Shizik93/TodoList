@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import { TaskType } from '../toolkitRedux/taskSlice';
+import { TaskType } from '../store/slices/taskSlice';
 
 import { instance } from './axios/axiosInstance';
 import { GetTasksResponse, ResponseType, UpdateTaskModelType } from './types';

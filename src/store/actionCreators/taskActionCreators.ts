@@ -1,15 +1,15 @@
 import { taskApi } from '../../API/taskApi';
 import { UpdateTaskModelType } from '../../API/types';
-import { handleServerAppError, handleServerNetworkError } from '../../Utils/error-utils';
-import { setStatusRTK } from '../appSlice';
-import { AppRootStateType, AppThunk } from '../store';
+import { handleServerAppError, handleServerNetworkError } from '../../utils/error-utils';
+import { setStatusRTK } from '../slices/appSlice';
 import {
   addNewTask,
   removeTask,
   setTasks,
   UpdateDomainTaskModelType,
   updateTask,
-} from '../taskSlice';
+} from '../slices/taskSlice';
+import { AppRootStateType, AppThunk } from '../store';
 
 export const fetchTasksTC =
   (todolistId: string): AppThunk =>
