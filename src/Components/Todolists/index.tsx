@@ -4,9 +4,12 @@ import { Grid, Paper } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { createNewTodolistTC, fetchTodolistsTC } from '../../Reducers/todolistReducer';
+import {
+  createNewTodolistTC,
+  fetchTodolistsTC,
+} from '../../toolkitRedux/ActionCreators/todolistActionCreators';
 import FullInput from '../FullInput';
-import Todolist from '../Todolist';
+import Todolist from '../TodolistItem';
 
 const Todolists = (): ReactElement => {
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);

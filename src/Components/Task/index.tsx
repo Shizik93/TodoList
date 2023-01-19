@@ -5,7 +5,7 @@ import { Checkbox, IconButton } from '@mui/material';
 
 import { RequestStatus } from '../../toolkitRedux/appSlice';
 import EditableSpan from '../EditableSpan';
-import { TaskStatuses } from '../Todolist';
+import { TaskStatuses } from '../TodolistItem';
 
 const Task = ({
   id,

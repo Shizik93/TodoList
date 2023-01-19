@@ -9,14 +9,13 @@ import {
   fetchTasksTC,
   removeTaskTC,
   updateTaskTC,
-} from '../../Reducers/taskReducer';
+} from '../../toolkitRedux/ActionCreators/taskActionCreators';
 import {
-  changeTodolistFilter,
   changeTodolistTitleTC,
-  FilterValuesType,
   removeTodolistTC,
-} from '../../Reducers/todolistReducer';
+} from '../../toolkitRedux/ActionCreators/todolistActionCreators';
 import { RequestStatus } from '../../toolkitRedux/appSlice';
+import { changeTodolistFilter, FilterValuesType } from '../../toolkitRedux/todolistSlice';
 import EditableSpan from '../EditableSpan';
 import FullInput from '../FullInput';
 import Task from '../Task';
@@ -50,7 +49,7 @@ const Todolist = ({
   };
 
   const changeFilter = (filter: FilterValuesType) => {
-    dispatch(changeTodolistFilter(todolistId, filter));
+    dispatch(changeTodolistFilter({ id: todolistId, filter }));
   };
 
   useEffect(() => {
